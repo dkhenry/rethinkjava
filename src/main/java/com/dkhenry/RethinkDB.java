@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.rethinkdb.Ql2.Datum.AssocPair;
 import com.rethinkdb.Ql2.*;
 import com.dkhenry.errors.*; 
 
@@ -134,5 +135,37 @@ class RethinkDB {
 		com.rethinkdb.Ql2.Response r = com.rethinkdb.Ql2.Response.parseFrom(buf.array()); 
 		return r;
 	}
-
+	
+	/* Datum Constructors */
+	public static Term stringDatumTerm(String s) {
+		return Term.newBuilder()
+					.setType(Term.TermType.DATUM)
+					.setDatum(stringDatum(s)).build();
+		
+	}
+	public static Datum stringDatum(String s) { 
+		return Datum.newBuilder()
+				.setType(Datum.DatumType.R_STR)
+				.setRStr(s)
+				.build();
+	}
+	
+	public static Datum doubleDatum(Double d) {
+		return Datum.newBuilder()
+				.setType(Datum.DatumType.R_NUM)
+				.setRNum(d)
+				.build();
+	}
+	
+	public static Datum objectDatum(String key, Double value) { 
+		return Datum.newBuilder()
+				.setType(Datum.DatumType.R_OBJECT)
+				.addRObject(
+						Datum.AssocPair.newBuilder()
+							.setKey(key)
+							.setVal(doubleDatum(value))
+				)									
+				.build();
+	}
+	
 }
