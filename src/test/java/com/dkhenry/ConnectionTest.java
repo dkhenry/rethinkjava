@@ -2,17 +2,21 @@ package com.dkhenry;
 
 import org.junit.Test;
 import java.io.PrintStream;
+import java.util.HashMap;
 
-import com.dkhenry.RethinkDB; 
-import com.dkhenry.errors.RqlDriverException;
+import com.dkhenry.RethinkDB.*; 
+import com.dkhenry.RethinkDB.Datum;
+import com.dkhenry.RethinkDB.errors.RqlDriverException;
+
 import com.rethinkdb.Ql2.*;
+
 public class ConnectionTest {
 
 	@Test
     public void testConnection(){
 		boolean rvalue = false;
 		try { 
-			RethinkDB r = RethinkDB.connect("localhost",28015);
+			RqlConnection r = RqlConnection.connect("localhost",28015);
 			r.close();
 		} catch (RqlDriverException e) {
 			rvalue = true; 
@@ -25,9 +29,9 @@ public class ConnectionTest {
 		// Connect We Know this works 
 		boolean rvalue = false; 
 		try {
-			RethinkDB r = RethinkDB.connect("localhost",28015); 
-			com.rethinkdb.Ql2.Response resp = r.db_list().run();
-			System.out.println(resp.toString()); 
+			RqlConnection r = RqlConnection.connect("localhost",28015); 
+			//com.rethinkdb.Ql2.Response resp = r.db_list().run();
+			//System.out.println(resp.toString()); 
 			r.close();
 		} catch (Exception e) { 
 			e.printStackTrace(new PrintStream(System.out));
@@ -40,7 +44,7 @@ public class ConnectionTest {
 	public void testSimpleGet() {
 		boolean rvalue = false;
 		try {
-			RethinkDB  r = RethinkDB.connect("localhost", 28015);
+			RqlConnection  r = RqlConnection.connect("localhost", 28015);
 			
 			// Build the Get Request
 			Long token = r.nextToken(); 
@@ -48,6 +52,7 @@ public class ConnectionTest {
 			Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();
 			Term.Builder t =  com.rethinkdb.Ql2.Term.newBuilder();
 			
+			//t.addArgs(RethinkDB.asTerm(Arrays.asList(new RethinkDB.Table("first"),new HashMap(){{ put("id",1.0); }})))
 			t.setType(Term.TermType.INSERT);
 			t.addArgs(
 					Term.newBuilder()
@@ -55,7 +60,7 @@ public class ConnectionTest {
 						.addArgs(
 								Term.newBuilder()
 									.setType(Term.TermType.DATUM)
-									.setDatum(RethinkDB.stringDatum("first"))									
+									.setDatum(Datum.datum("first"))									
 						)
 			).addArgs(
 					Term.newBuilder()
@@ -63,7 +68,7 @@ public class ConnectionTest {
 						.addArgs(
 								Term.newBuilder()
 									.setType(Term.TermType.DATUM)
-									.setDatum(RethinkDB.objectDatum("id",1.0))
+									.setDatum(Datum.datum(new HashMap<String,Double>() {{ put("id",1.0); }}))
 						)
 			);
 			

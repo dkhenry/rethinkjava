@@ -1,26 +1,27 @@
-package com.dkhenry;
+package com.dkhenry.RethinkDB;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.SocketChannel;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.channels.SocketChannel;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.rethinkdb.Ql2.Datum.AssocPair;
-import com.rethinkdb.Ql2.*;
-import com.dkhenry.errors.*; 
+import com.dkhenry.RethinkDB.errors.RqlDriverException;
+import com.rethinkdb.Ql2.Response;
 
-class RethinkDB { 
+public class RqlConnection {
 	private SocketChannel _sc;    
 	private String _hostname;
 	private int _port; 
 	private boolean _connected;
-	
+
+
+ 
 	//! A global counter for the request tokens; 
 	private static AtomicLong counter = new AtomicLong(0);
 
-	public RethinkDB() { 
+	public RqlConnection() { 
 		_connected = false; 
 	}
 
@@ -53,7 +54,7 @@ class RethinkDB {
 		}
 	}
 
-	
+
 	private void reconnect() throws RqlDriverException{ 
 		try {
 			if( _connected ) {
@@ -62,7 +63,7 @@ class RethinkDB {
 			_sc = SocketChannel.open(); 
 			_sc.configureBlocking( true );
 			_sc.connect(new InetSocketAddress(_hostname,_port));
-		
+
 			ByteBuffer buffer = ByteBuffer.allocate(4); 
 			buffer.order(ByteOrder.LITTLE_ENDIAN);		
 			buffer.putInt(com.rethinkdb.Ql2.VersionDummy.Version.V0_1_VALUE);
@@ -71,22 +72,18 @@ class RethinkDB {
 			while(buffer.hasRemaining()) { 
 				_sc.write(buffer);
 			}	   					
-					
+
 			_connected = true;
 		} catch (IOException ex) { 
 			throw new RqlDriverException(ex.getMessage());				
 		}
-	
+
 	}
-	
+
 	public long nextToken() { 
 		return counter.incrementAndGet();
 	}
 	
-	public RethinkCommand db_list() { 
-		return RethinkCommand.db_list(this); 			
-	}
-
 	public void send_raw( byte[] data ) throws IOException { 
 		rethink_send(_sc,data); 
 	}
@@ -94,10 +91,9 @@ class RethinkDB {
 	public Response recv_raw() throws IOException { 
 		return rethink_recv(_sc); 
 	}
-		
-
-	public static RethinkDB connect(String hostname, int port) throws RqlDriverException { 
-		RethinkDB r = new RethinkDB(); 
+	
+	public static RqlConnection connect(String hostname, int port) throws RqlDriverException { 
+		RqlConnection r = new RqlConnection(); 
 		r.set_hostname(hostname);
 		r.set_port(port);		
 		r.reconnect();
@@ -135,37 +131,4 @@ class RethinkDB {
 		com.rethinkdb.Ql2.Response r = com.rethinkdb.Ql2.Response.parseFrom(buf.array()); 
 		return r;
 	}
-	
-	/* Datum Constructors */
-	public static Term stringDatumTerm(String s) {
-		return Term.newBuilder()
-					.setType(Term.TermType.DATUM)
-					.setDatum(stringDatum(s)).build();
-		
-	}
-	public static Datum stringDatum(String s) { 
-		return Datum.newBuilder()
-				.setType(Datum.DatumType.R_STR)
-				.setRStr(s)
-				.build();
-	}
-	
-	public static Datum doubleDatum(Double d) {
-		return Datum.newBuilder()
-				.setType(Datum.DatumType.R_NUM)
-				.setRNum(d)
-				.build();
-	}
-	
-	public static Datum objectDatum(String key, Double value) { 
-		return Datum.newBuilder()
-				.setType(Datum.DatumType.R_OBJECT)
-				.addRObject(
-						Datum.AssocPair.newBuilder()
-							.setKey(key)
-							.setVal(doubleDatum(value))
-				)									
-				.build();
-	}
-	
 }

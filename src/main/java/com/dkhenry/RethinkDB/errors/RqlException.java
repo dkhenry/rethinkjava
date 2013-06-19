@@ -1,4 +1,4 @@
-package com.dkhenry.errors;
+package com.dkhenry.RethinkDB.errors;
 
 public class RqlException extends Exception { 
 	public RqlException(String message) { 
