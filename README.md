@@ -5,7 +5,7 @@ Java/JVM Drivers for RethinkDB ( rethinkdb.com )
 
 
 # Status 
-This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability or saftly of this code. 
+This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability, or safety of this code. 
 
 ## Whats Working 
 Right now communicating with the Server works. Also If you pull in this artifact you should have access to the entire Protobuf API so if you're in a hurry you can just construct raw querys and send them using the RqlConneciton class. 
