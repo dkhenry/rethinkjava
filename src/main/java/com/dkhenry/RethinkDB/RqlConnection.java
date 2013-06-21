@@ -8,15 +8,15 @@ import java.nio.channels.SocketChannel;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
+import com.rethinkdb.Ql2.Query;
 import com.rethinkdb.Ql2.Response;
+import com.rethinkdb.Ql2.Term;
 
 public class RqlConnection {
 	private SocketChannel _sc;    
 	private String _hostname;
 	private int _port; 
 	private boolean _connected;
-
-
  
 	//! A global counter for the request tokens; 
 	private static AtomicLong counter = new AtomicLong(0);
@@ -52,6 +52,52 @@ public class RqlConnection {
 			}
 			_connected = false; 
 		}
+	}
+	
+	public Response run(RqlQuery query) throws RqlDriverException {
+		Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();		
+		q.setType(Query.QueryType.START);
+		q.setToken(nextToken()); 
+		q.setQuery(query.build());
+		try { 
+			send_raw(q.build().toByteArray());
+			return recv_raw();
+		} catch (IOException ex) { 
+			throw new RqlDriverException(ex.getMessage());
+			
+		}
+		 
+	}
+	
+	/* Utility functions to make a pretty API */
+	public RqlQuery.Table table(Object... args) { 
+		RqlQuery.Table rvalue =  new RqlQuery.Table();
+		rvalue.construct(args);
+		return rvalue; 
+	}
+	
+	public RqlTopLevelQuery.DB db(Object... args) {
+		RqlTopLevelQuery.DB rvalue = new RqlTopLevelQuery.DB();
+		rvalue.construct(args);
+		return rvalue;
+	}
+	
+	public RqlTopLevelQuery.DbCreate db_create(Object... args) { 
+		RqlTopLevelQuery.DbCreate rvalue = new RqlTopLevelQuery.DbCreate();
+		rvalue.construct(args);
+		return rvalue;
+	}
+	
+	public RqlTopLevelQuery.DbDrop db_drop(Object... args) { 
+		RqlTopLevelQuery.DbDrop rvalue = new RqlTopLevelQuery.DbDrop();
+		rvalue.construct(args);
+		return rvalue;
+	}
+	
+	public RqlTopLevelQuery.DbList db_list(Object... args) {
+		RqlTopLevelQuery.DbList rvalue = new RqlTopLevelQuery.DbList();
+		rvalue.construct(args);
+		return rvalue;
 	}
 
 

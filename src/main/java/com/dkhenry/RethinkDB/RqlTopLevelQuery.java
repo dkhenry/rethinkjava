@@ -1,5 +1,121 @@
 package com.dkhenry.RethinkDB;
 
-public class RqlTopLevelQuery extends RqlQuery {
- 
+import com.rethinkdb.Ql2.Term;
+import com.rethinkdb.Ql2.Term.TermType;
+
+public abstract class RqlTopLevelQuery extends RqlQuery {
+	public RqlTopLevelQuery() { 
+		super();
+	}
+	public static class JavaScript extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.JAVASCRIPT;
+		}
+	}
+	
+	public static class UserError extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.ERROR;
+		}
+	}
+	
+	public static class DB extends RqlTopLevelQuery {	
+		public DB(Object... args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.DB;
+		}
+		
+		public RqlMethodQuery.TableCreate table_create(Object... args) {
+			RqlMethodQuery.TableCreate rvalue = new RqlMethodQuery.TableCreate();
+			Object[] o = new Object[args.length+1];
+			o[0] = this;
+			System.arraycopy(args,0,o,1,args.length);			
+			rvalue.construct(o);						
+			return rvalue;
+		}
+		public RqlMethodQuery.TableDrop table_drop(Object... args) {
+			RqlMethodQuery.TableDrop rvalue = new RqlMethodQuery.TableDrop();
+			Object[] o = new Object[args.length+1];
+			o[0] = this;
+			System.arraycopy(args,0,o,1,args.length);			
+			rvalue.construct(o);						
+			return rvalue;
+		}
+		public RqlMethodQuery.TableList table_list(Object... args) {
+			RqlMethodQuery.TableList rvalue = new RqlMethodQuery.TableList();
+			Object[] o = new Object[args.length+1];
+			o[0] = this;
+			System.arraycopy(args,0,o,1,args.length);			
+			rvalue.construct(o);						
+			return rvalue;
+		}
+	}
+	
+	public static class DbCreate extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.DB_CREATE;
+		}
+	}
+	
+	public static class DbDrop extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.DB_DROP;
+		}
+	}
+	
+	public static class DbList extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.DB_LIST;
+		}
+	}
+	
+	public static class TableCreateTL extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.TABLE_CREATE;
+		}
+	}
+	
+	public static class TableDropTL extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.TABLE_DROP;
+		}
+	}
+	
+	public static class TableListTL extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.TABLE_LIST;
+		}
+	}
+	
+	public static class Asc extends RqlTopLevelQuery {		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.ASC;
+		}
+	}
+	
+	public static class Desc extends RqlTopLevelQuery { 		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.DESC;
+		}
+	}
+	
+	public static class Branch extends RqlTopLevelQuery { 		
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.BRANCH;
+		}
+	}
 }

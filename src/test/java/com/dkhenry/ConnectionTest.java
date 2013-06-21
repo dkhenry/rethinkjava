@@ -2,6 +2,7 @@ package com.dkhenry;
 
 import org.junit.Test;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.dkhenry.RethinkDB.*; 
@@ -11,7 +12,7 @@ import com.dkhenry.RethinkDB.errors.RqlDriverException;
 import com.rethinkdb.Ql2.*;
 
 public class ConnectionTest {
-
+	
 	@Test
     public void testConnection(){
 		boolean rvalue = false;
@@ -23,66 +24,135 @@ public class ConnectionTest {
 		}
 		org.junit.Assert.assertFalse("Error Connecting", rvalue);
 	}
-
+	
+	/* Test the functionality of the ten minute Introduction */
 	@Test
-	public void testCreateTable() {
-		// Connect We Know this works 
-		boolean rvalue = false; 
+	public void testDatabaseCreate() {
+		boolean rvalue = false;
+		RqlConnection r;
 		try {
-			RqlConnection r = RqlConnection.connect("localhost",28015); 
-			//com.rethinkdb.Ql2.Response resp = r.db_list().run();
-			//System.out.println(resp.toString()); 
+			r = RqlConnection.connect("localhost",28015);
+			//r.db_create('superheroes').run(conn)
+			System.out.println(r.run(r.db_create("superheroes")).toString());			
 			r.close();
-		} catch (Exception e) { 
-			e.printStackTrace(new PrintStream(System.out));
-			rvalue = true; 
+		} 		
+		catch (RqlDriverException e) {
+			e.printStackTrace();
+			rvalue = true;
 		}
-		org.junit.Assert.assertFalse("Error Sending DBList Query", rvalue);		
+		org.junit.Assert.assertFalse("Error Creating Datrabase", rvalue);
 	}
 	
 	@Test
-	public void testSimpleGet() {
+	public void testDatabaseList() { 
 		boolean rvalue = false;
+		RqlConnection r;
 		try {
-			RqlConnection  r = RqlConnection.connect("localhost", 28015);
-			
-			// Build the Get Request
-			Long token = r.nextToken(); 
-			// Build the Protocol Buffer ( Insert Data )
-			Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();
-			Term.Builder t =  com.rethinkdb.Ql2.Term.newBuilder();
-			
-			//t.addArgs(RethinkDB.asTerm(Arrays.asList(new RethinkDB.Table("first"),new HashMap(){{ put("id",1.0); }})))
-			t.setType(Term.TermType.INSERT);
-			t.addArgs(
-					Term.newBuilder()
-						.setType(Term.TermType.TABLE)
-						.addArgs(
-								Term.newBuilder()
-									.setType(Term.TermType.DATUM)
-									.setDatum(Datum.datum("first"))									
-						)
-			).addArgs(
-					Term.newBuilder()
-						.setType(Term.TermType.MAKE_ARRAY)
-						.addArgs(
-								Term.newBuilder()
-									.setType(Term.TermType.DATUM)
-									.setDatum(Datum.datum(new HashMap<String,Double>() {{ put("id",1.0); }}))
-						)
-			);
-			
-			// Set the query parameters
-			q.setType(Query.QueryType.START);
-			q.setToken(token); 
-			q.setQuery(t.build());
-			r.send_raw(q.build().toByteArray());
-			com.rethinkdb.Ql2.Response resp = r.recv_raw();
-			System.out.println(resp.toString()); 
-		} catch (Exception ex) {
-			ex.printStackTrace(new PrintStream(System.out));			
-			rvalue = true; 
-		}
-		org.junit.Assert.assertFalse("Error Sending Insert to Server", rvalue);									
+			r = RqlConnection.connect("localhost",28015);
+			//r.db_list().run(conn)
+			System.out.println(r.run(r.db_list()).toString());			
+			r.close();
+		} 		
+		catch (RqlDriverException e) {
+			e.printStackTrace();
+			rvalue = true;
+		}	
+		org.junit.Assert.assertFalse("Error Listing Databases", rvalue);
 	}
+	
+	@Test
+	public void testDatabaseDrop() {
+		boolean rvalue = false;
+		RqlConnection r;
+		try {
+			r = RqlConnection.connect("localhost",28015);
+			//r.db_drop('superheroes').run(conn)
+			System.out.println(r.run(r.db_drop("superheroes")).toString());			
+			r.close();
+		} 		
+		catch (RqlDriverException e) {
+			e.printStackTrace();
+			rvalue =  true;
+		}	
+		org.junit.Assert.assertFalse("Error Droping Databases", rvalue);
+	}
+	
+	@Test
+	public void testTableCreate() {
+		boolean rvalue = false; 
+		RqlConnection r;
+		try {
+			r = RqlConnection.connect("localhost",28015);
+			// r.db('test').table_create('dc_universe').run(conn)
+			System.out.println(r.run(r.db("test").table_create("dc_universe")).toString());			
+			r.close();
+		} 		
+		catch (RqlDriverException e) {
+			e.printStackTrace();
+			rvalue = true;
+		}
+		org.junit.Assert.assertFalse("Error Creating Table", rvalue);
+	}
+	
+	@Test
+	public void testTableList() {
+		boolean rvalue= false ;	
+		RqlConnection r;
+		try {
+			r = RqlConnection.connect("localhost",28015);
+			// r.db('test').table_list().run(conn)
+			System.out.println(r.run(r.db("test").table_list()).toString());			
+			r.close();
+		} 		
+		catch (RqlDriverException e) {
+			e.printStackTrace();
+			rvalue = true;
+		}
+		org.junit.Assert.assertFalse("Error Listing Tables", rvalue);
+	}
+	
+	@Test
+	public void testTableDrop() {
+		boolean rvalue = true;
+		RqlConnection r;
+		try {
+			r = RqlConnection.connect("localhost",28015);
+			// r.db('test').table_drop('dc_universe').run(conn)
+			System.out.println(r.run(r.db("test").table_drop("dc_universe")).toString());			
+			r.close();
+		} 		
+		catch (RqlDriverException e) {
+			e.printStackTrace();
+			rvalue = false;
+		}
+		org.junit.Assert.assertFalse("Error Droping Table", rvalue);
+	}
+	
+	/* Test Generation of the protobuf messages */ 
+	@Test 
+	public void testRqlQueryDatum() { 		
+		try {
+			System.out.println((new RqlQuery.Datum("Hello World")).build().toString());
+			
+			RqlConnection r = RqlConnection.connect("localhost",28015);
+			System.out.println(r.db("test").table_create("tv_shows").build().toString());
+			System.out.println(r.table("tv_shows").insert(Arrays.asList(new HashMap() {{ put("id",10.0); }})).build().toString());
+			
+			RqlQuery query = new RqlMethodQuery.Insert(							
+							new RqlQuery.Table(new RqlTopLevelQuery.DB("test"),"first"),
+							Arrays.asList(
+									new HashMap() {{ put("id",10.0); }},
+									new HashMap() {{ put("id",11.0); }},
+									new HashMap() {{ put("id",12.0); }}
+							)
+					);
+			com.rethinkdb.Ql2.Response resp = r.run(query);
+			System.out.println(resp.toString());
+			r.close();
+			
+		} catch (Exception ex) {
+			ex.printStackTrace(System.out);
+		}
+		org.junit.Assert.assertFalse("This can't happen", false);
+	}	
 }
