@@ -1,15 +1,12 @@
 package com.dkhenry;
 
 import org.junit.Test;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import com.dkhenry.RethinkDB.*; 
-import com.dkhenry.RethinkDB.Datum;
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
 
-import com.rethinkdb.Ql2.*;
 
 public class ConnectionTest {
 	

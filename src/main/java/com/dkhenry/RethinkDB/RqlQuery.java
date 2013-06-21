@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import com.rethinkdb.Ql2.Term;
 import com.rethinkdb.Ql2.Term.TermType;
 
@@ -29,17 +27,7 @@ abstract public class RqlQuery {
 	}
 	
 	abstract protected Term.TermType tt() ;
-	
-/*	public static RqlQuery eval(RqlQuery v) { 
-		return v;
-	}
-	public static <T> RqlQuery eval(List<T> l) {
-		return new MakeArray(l);
-	}
-	public static <V extends RqlQuery> RqlQuery eval(Map<String,V> m) {
-		return new MakeObject(m);
-	}
-*/
+
 	public static <T> RqlQuery eval(T t) {
 		if( t instanceof RqlQuery) { 
 			return (RqlQuery)t;
@@ -117,35 +105,54 @@ abstract public class RqlQuery {
 		}
 	}
 	
-	public static class Var extends RqlQuery {		
+	public static class Var extends RqlQuery {
+		public Var(Object ...args) {
+			construct(args);
+		}
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.VAR;
 		}
 	}
 	
-	public static class Default extends RqlQuery {		
+	public static class Default extends RqlQuery {
+		public Default(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.DEFAULT;
 		}
 	}
 	
-	public static class ImplicitVar extends RqlQuery {		
+	public static class ImplicitVar extends RqlQuery {
+		public ImplicitVar(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.IMPLICIT_VAR;
 		}
 	}
 
-	public static class Not extends RqlQuery {		
+	public static class Not extends RqlQuery {
+		public Not(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.NOT;
 		}
 	}
 	
-	public static class Slice extends RqlQuery {		
+	public static class Slice extends RqlQuery {
+		public Slice(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.SLICE;
@@ -153,13 +160,21 @@ abstract public class RqlQuery {
 	}
 	
 	public static class GetAttr extends RqlQuery {
+		public GetAttr(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.GETATTR;
 		}
 	}
 	
-	public static class FunCall extends RqlQuery {		
+	public static class FunCall extends RqlQuery {
+		public FunCall(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.FUNCALL;
@@ -185,21 +200,33 @@ abstract public class RqlQuery {
 		}
 	}
 	
-	public static class Nth extends RqlQuery {		
+	public static class Nth extends RqlQuery {
+		public Nth(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.NTH;
 		}
 	}
 	
-	public static class Match extends RqlQuery {		
+	public static class Match extends RqlQuery {
+		public Match(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.MATCH;
 		}
 	}	
 	
-	public static class Func extends RqlQuery {		
+	public static class Func extends RqlQuery {
+		public Func(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.FUNC;

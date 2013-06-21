@@ -7,14 +7,22 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 	public RqlTopLevelQuery() { 
 		super();
 	}
-	public static class JavaScript extends RqlTopLevelQuery {		
+	public static class JavaScript extends RqlTopLevelQuery {
+		public JavaScript(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.JAVASCRIPT;
 		}
 	}
 	
-	public static class UserError extends RqlTopLevelQuery {		
+	public static class UserError extends RqlTopLevelQuery {
+		public UserError(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.ERROR;
@@ -56,63 +64,98 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 		}
 	}
 	
-	public static class DbCreate extends RqlTopLevelQuery {		
+	public static class DbCreate extends RqlTopLevelQuery {
+		public DbCreate(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.DB_CREATE;
 		}
 	}
 	
-	public static class DbDrop extends RqlTopLevelQuery {		
+	public static class DbDrop extends RqlTopLevelQuery {
+		public DbDrop(Object ...args) {
+			construct(args);
+		}
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.DB_DROP;
 		}
 	}
 	
-	public static class DbList extends RqlTopLevelQuery {		
+	public static class DbList extends RqlTopLevelQuery {
+		public DbList(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.DB_LIST;
 		}
 	}
 	
-	public static class TableCreateTL extends RqlTopLevelQuery {		
+	public static class TableCreateTL extends RqlTopLevelQuery {
+		public TableCreateTL(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.TABLE_CREATE;
 		}
 	}
 	
-	public static class TableDropTL extends RqlTopLevelQuery {		
+	public static class TableDropTL extends RqlTopLevelQuery {
+		public TableDropTL(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.TABLE_DROP;
 		}
 	}
 	
-	public static class TableListTL extends RqlTopLevelQuery {		
+	public static class TableListTL extends RqlTopLevelQuery {
+		public TableListTL(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.TABLE_LIST;
 		}
 	}
 	
-	public static class Asc extends RqlTopLevelQuery {		
+	public static class Asc extends RqlTopLevelQuery {
+		public Asc(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.ASC;
 		}
 	}
 	
-	public static class Desc extends RqlTopLevelQuery { 		
+	public static class Desc extends RqlTopLevelQuery {
+		public Desc(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.DESC;
 		}
 	}
 	
-	public static class Branch extends RqlTopLevelQuery { 		
+	public static class Branch extends RqlTopLevelQuery {
+		public Branch(Object ...args) {
+			construct(args);
+		}
+		
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.BRANCH;
