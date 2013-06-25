@@ -40,225 +40,502 @@ public abstract class RqlMethodQuery extends RqlQuery {
 			return Term.TermType.TABLE_LIST;
 		}
 	}
-/*
- * 
-class Append(RqlMethodQuery):
-    tt = p.Term.APPEND
-    st = "append"
+	public static class Append extends RqlMethodQuery {
+		public Append(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.APPEND;
+		}
+	}
 
-class Prepend(RqlMethodQuery):
-    tt = p.Term.PREPEND
-    st = "prepend"
+	public static class Prepend extends RqlMethodQuery {
+		public Prepend(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.PREPEND;
+		}
+	}
 
-class Difference(RqlMethodQuery):
-    tt = p.Term.DIFFERENCE
-    st = "difference"
+	public static class Difference extends RqlMethodQuery { 
+		public  Difference(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.DIFFERENCE;
+		}
+	}
 
-class SetInsert(RqlMethodQuery):
-    tt = p.Term.SET_INSERT
-    st = "set_insert"
+	public static class SetInsert extends RqlMethodQuery {
+		public SetInsert(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.SET_INSERT;
+		}
+	}
 
-class SetUnion(RqlMethodQuery):
-    tt = p.Term.SET_UNION
-    st = "set_union"
+	public static class SetUnion extends RqlMethodQuery {
+		public SetUnion(Object ...args) {
+			construct(args);		
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.SET_UNION;
+		}
+	}
 
-class SetIntersection(RqlMethodQuery):
-    tt = p.Term.SET_INTERSECTION
-    st = "set_intersection"
+	public static class SetIntersection extends RqlMethodQuery {
+		public SetIntersection(Object ...args) { 
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.SET_INTERSECTION;
+		}
+	}
+	public static class SetDifference extends RqlMethodQuery {
+		public SetDifference(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.SET_DIFFERENCE;
+		}
+	}
 
-class SetDifference(RqlMethodQuery):
-    tt = p.Term.SET_DIFFERENCE
-    st = "set_difference"
+	public static class Skip extends RqlMethodQuery {
+		public Skip(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.SKIP;
+		}
+	}
 
-class Skip(RqlMethodQuery):
-    tt = p.Term.SKIP
-    st = 'skip'
+	public static class Limit extends RqlMethodQuery {
+		public Limit(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.LIMIT;
+		}
+	}
 
-class Limit(RqlMethodQuery):
-    tt = p.Term.LIMIT
-    st = 'limit'
-class Contains(RqlMethodQuery):
-    tt = p.Term.CONTAINS
-    st = 'contains'
+	public static class Contains extends RqlMethodQuery {
+		public Contains(Object ...args) { 
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.CONTAINS;
+		}
+	}
 
-class HasFields(RqlMethodQuery):
-    tt = p.Term.HAS_FIELDS
-    st = 'has_fields'
+	public static class HasFields extends RqlMethodQuery { 
+		public HasFields(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.HAS_FIELDS;
+		}
+	}
 
-class WithFields(RqlMethodQuery):
-    tt = p.Term.WITH_FIELDS
-    st = 'with_fields'
+	public static class WithFields extends RqlMethodQuery {
+		public WithFields(Object ...args) {
+			construct(args); 
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.WITH_FIELDS;
+		}
+	}
 
-class Keys(RqlMethodQuery):
-    tt = p.Term.KEYS
-    st = 'keys'
+	public static class Keys extends RqlMethodQuery { 
+		public Keys(Object ...args) { 
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.KEYS;
+		}
+	}
 
-class Pluck(RqlMethodQuery):
-    tt = p.Term.PLUCK
-    st = 'pluck'
+	public static class Pluck extends RqlMethodQuery {
+		public Pluck(Object ...args) { 
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {			
+			return Term.TermType.PLUCK;
+		}
+	}
+	public static class Without extends RqlMethodQuery {
+		public  Without(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.WITHOUT;
+		}
+	}
 
-class Without(RqlMethodQuery):
-    tt = p.Term.WITHOUT
-    st = 'without'
+	public static class Merge extends RqlMethodQuery {
+		public  Merge(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.MERGE;
+		}
+	}
 
-class Merge(RqlMethodQuery):
-    tt = p.Term.MERGE
-    st = 'merge'
+	public static class Between extends RqlMethodQuery {
+		public  Between(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.BETWEEN;
+		}
+	}
 
-class Between(RqlMethodQuery):
-    tt = p.Term.BETWEEN
-    st = 'between'
+	public static class Get extends RqlMethodQuery {
+		public  Get(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.GET;
+		}
+	}
 
-class Get(RqlMethodQuery):
-    tt = p.Term.GET
-    st = 'get'
+	public static class GetAll extends RqlMethodQuery {
+		public  GetAll(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.GET_ALL;
+		}
+	}
 
-class GetAll(RqlMethodQuery):
-    tt = p.Term.GET_ALL
-    st = 'get_all'
+	public static class Reduce extends RqlMethodQuery {
+		public  Reduce(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.REDUCE;
+		}
+	}
 
-class Reduce(RqlMethodQuery):
-    tt = p.Term.REDUCE
-    st = 'reduce'
+	public static class Map extends RqlMethodQuery {
+		public  Map(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.MAP;
+		}
+	}
 
-class Map(RqlMethodQuery):
-    tt = p.Term.MAP
-    st = 'map'
+	public static class Filter extends RqlMethodQuery {
+		public  Filter(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.FILTER;
+		}
+	}
 
-class Filter(RqlMethodQuery):
-    tt = p.Term.FILTER
-    st = 'filter'
+	public static class ConcatMap extends RqlMethodQuery {
+		public  ConcatMap(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.CONCATMAP;
+		}
+	}
 
-class ConcatMap(RqlMethodQuery):
-    tt = p.Term.CONCATMAP
-    st = 'concat_map'
+	public static class OrderBy extends RqlMethodQuery {
+		public  OrderBy(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.ORDERBY;
+		}
+	}
 
-class OrderBy(RqlMethodQuery):
-    tt = p.Term.ORDERBY
-    st = 'order_by'
+	public static class Distinct extends RqlMethodQuery {
+		public  Distinct(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.DISTINCT;
+		}
+	}
 
-class Distinct(RqlMethodQuery):
-    tt = p.Term.DISTINCT
-    st = 'distinct'
+	public static class Count extends RqlMethodQuery {
+		public  Count(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.COUNT;
+		}
+	}
 
-class Count(RqlMethodQuery):
-    tt = p.Term.COUNT
-    st = 'count'
+	public static class Union extends RqlMethodQuery {
+		public  Union(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.UNION;
+		}
+	}
 
-class Union(RqlMethodQuery):
-    tt = p.Term.UNION
-    st = 'union'
-class IndexesOf(RqlMethodQuery):
-    tt = p.Term.INDEXES_OF
-    st = 'indexes_of'
+	public static class IndexesOf extends RqlMethodQuery {
+		public  IndexesOf(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INDEXES_OF;
+		}
+	}
 
-class IsEmpty(RqlMethodQuery):
-    tt = p.Term.IS_EMPTY
-    st = 'is_empty'
+	public static class IsEmpty extends RqlMethodQuery {
+		public  IsEmpty(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.IS_EMPTY;
+		}
+	}
 
-class IndexesOf(RqlMethodQuery):
-    tt = p.Term.INDEXES_OF
-    st = 'indexes_of'
+	public static class GroupedMapReduce extends RqlMethodQuery {
+		public  GroupedMapReduce(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.GROUPED_MAP_REDUCE;
+		}
+	}
 
-class GroupedMapReduce(RqlMethodQuery):
-    tt = p.Term.GROUPED_MAP_REDUCE
-    st = 'grouped_map_reduce'
+	public static class GroupBy extends RqlMethodQuery {
+		public  GroupBy(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.GROUPBY;
+		}
+	}
 
-class GroupBy(RqlMethodQuery):
-    tt = p.Term.GROUPBY
-    st = 'group_by'
+	public static class InnerJoin extends RqlMethodQuery {
+		public  InnerJoin(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INNER_JOIN;
+		}
+	}
 
-class InnerJoin(RqlMethodQuery):
-    tt = p.Term.INNER_JOIN
-    st = 'inner_join'
+	public static class OuterJoin extends RqlMethodQuery {
+		public  OuterJoin(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.OUTER_JOIN;
+		}
+	}
 
-class OuterJoin(RqlMethodQuery):
-    tt = p.Term.OUTER_JOIN
-    st = 'outer_join'
+	public static class EqJoin extends RqlMethodQuery {
+		public  EqJoin(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.EQ_JOIN;
+		}
+	}
 
-class EqJoin(RqlMethodQuery):
-    tt = p.Term.EQ_JOIN
-    st = 'eq_join'
+	public static class Zip extends RqlMethodQuery {
+		public  Zip(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.ZIP;
+		}
+	}
 
-class Zip(RqlMethodQuery):
-    tt = p.Term.ZIP
-    st = 'zip'
+	public static class CoerceTo extends RqlMethodQuery {
+		public  CoerceTo(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.COERCE_TO;
+		}
+	}
 
-class CoerceTo(RqlMethodQuery):
-    tt = p.Term.COERCE_TO
-    st = 'coerce_to'
+	public static class TypeOf extends RqlMethodQuery {
+		public  TypeOf(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.TYPEOF;
+		}
+	}
 
-class TypeOf(RqlMethodQuery):
-    tt = p.Term.TYPEOF
-    st = 'type_of'
+	public static class Update extends RqlMethodQuery {
+		public  Update(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.UPDATE;
+		}
+	}
 
-class Update(RqlMethodQuery):
-    tt = p.Term.UPDATE
-    st = 'update'
+	public static class Delete extends RqlMethodQuery {
+		public  Delete(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.DELETE;
+		}
+	}
 
-class Delete(RqlMethodQuery):
-    tt = p.Term.DELETE
-    st = 'delete'
+	public static class Replace extends RqlMethodQuery {
+		public  Replace(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.REPLACE;
+		}
+	}
 
-class Replace(RqlMethodQuery):
-    tt = p.Term.REPLACE
-    st = 'replace'
+	public static class IndexCreate extends RqlMethodQuery {
+		public  IndexCreate(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INDEX_CREATE;
+		}
+	}
 
-class Insert(RqlMethodQuery):
-    tt = p.Term.INSERT
-    st = 'insert'
-    
-class TableCreate(RqlMethodQuery):
-    tt = p.Term.TABLE_CREATE
-    st = "table_create"
+	public static class IndexDrop extends RqlMethodQuery {
+		public  IndexDrop(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INDEX_DROP;
+		}
+	}
 
-class TableDrop(RqlMethodQuery):
-    tt = p.Term.TABLE_DROP
-    st = "table_drop"
+	public static class IndexList extends RqlMethodQuery {
+		public  IndexList(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INDEX_LIST;
+		}
+	}
 
-class TableList(RqlMethodQuery):
-    tt = p.Term.TABLE_LIST
-    st = "table_list"
+	public static class ForEach extends RqlMethodQuery {
+		public  ForEach(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.FOREACH;
+		}
+	}
 
-class IndexCreate(RqlMethodQuery):
-    tt = p.Term.INDEX_CREATE
-    st = 'index_create'
+	public static class Info extends RqlMethodQuery {
+		public  Info(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INFO;
+		}
+	}
 
-class IndexDrop(RqlMethodQuery):
-    tt = p.Term.INDEX_DROP
-    st = 'index_drop'
+	public static class InsertAt extends RqlMethodQuery {
+		public  InsertAt(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.INSERT_AT;
+		}
+	}
 
-class IndexList(RqlMethodQuery):
-    tt = p.Term.INDEX_LIST
-    st = 'index_list'
+	public static class SpliceAt extends RqlMethodQuery {
+		public  SpliceAt(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.SPLICE_AT;
+		}
+	}
 
-class ForEach(RqlMethodQuery):
-    tt = p.Term.FOREACH
-    st = 'for_each'
-class Info(RqlMethodQuery):
-    tt = p.Term.INFO
-    st = 'info'
+	public static class DeleteAt extends RqlMethodQuery {
+		public  DeleteAt(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.DELETE_AT;
+		}
+	}
 
-class InsertAt(RqlMethodQuery):
-    tt = p.Term.INSERT_AT
-    st = 'insert_at'
+	public static class ChangeAt extends RqlMethodQuery {
+		public  ChangeAt(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.CHANGE_AT;
+		}
+	}
 
-class SpliceAt(RqlMethodQuery):
-    tt = p.Term.SPLICE_AT
-    st = 'splice_at'
-
-class DeleteAt(RqlMethodQuery):
-    tt = p.Term.DELETE_AT
-    st = 'delete_at'
-
-class ChangeAt(RqlMethodQuery):
-    tt = p.Term.CHANGE_AT
-    st = 'change_at'
-
-class Sample(RqlMethodQuery):
-    tt = p.Term.SAMPLE
-    st = 'sample'
-
-
- */
+	public static class Sample extends RqlMethodQuery {
+		public  Sample(Object ...args) {
+			construct(args);
+		}
+		@Override
+		protected TermType tt() {
+			return Term.TermType.SAMPLE;
+		}
+	}
 }
+

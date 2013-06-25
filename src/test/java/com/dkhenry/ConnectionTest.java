@@ -110,7 +110,7 @@ public class ConnectionTest {
 	
 	@Test
 	public void testTableDrop() {
-		boolean rvalue = true;
+		boolean rvalue = false;
 		RqlConnection r;
 		try {
 			r = RqlConnection.connect("localhost",28015);
@@ -120,7 +120,7 @@ public class ConnectionTest {
 		} 		
 		catch (RqlDriverException e) {
 			e.printStackTrace();
-			rvalue = false;
+			rvalue = true;
 		}
 		org.junit.Assert.assertFalse("Error Droping Table", rvalue);
 	}
