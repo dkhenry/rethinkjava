@@ -38,7 +38,7 @@ Also The Database administration querys should be working ( db_create, db_drop, 
 There _is_ support for inserting right now, but Its not well tested. 
 
 ##Whats not working 
-Any for of reads or updates 
+Any form of reads or updates 
 
 Actualy testing of everything
 
@@ -52,8 +52,6 @@ Fork the repo and make pull requests
 Submit defects and feature request 
 
 Create some kind of documentation 
-
-Give me a place to host the maven artifacts
 
 # Planned API 
 I want to keep this API as close to the official API's as I can. This is an example of what I will try to accomplish
