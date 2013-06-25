@@ -4,7 +4,7 @@
 
   <groupId>com.dkhenry</groupId>
   <artifactId>rethinkjava</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <packaging>jar</packaging>
 
   <name>rethinkjava</name>
@@ -114,4 +114,14 @@
     <version>2.4.1</version>
   </dependency>
 </dependencies>
+	<description>Java bindings for rethinkdb</description>
+	<scm>
+		<url>https://github.com:dkhenry/rethinkjava.git</url>
+		<connection>scm:git:git://github.com:dkhenry/rethinkjava.git</connection>
+		<developerConnection>scm:git:git@github.com:dkhenry/rethinkjava.git</developerConnection>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/dkhenry/rethinkjava/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
 </project>
