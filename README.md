@@ -9,20 +9,26 @@ This drivers are being worked on now and is currently in progress. I make no cla
 
 ## Using rethinkjava 
 Add the following to your pom.xml
-<distributionManagement>
-    <repository>
-        <id>github</id>
-        <name>GitHub ${project.artifactId} Repository</name>
-        <url>https://raw.github.com/YOUR-GITHUB-USERNAME/${project.artifactId}/mvn-repo</url>
-    </repository>
-</distributionManagement>
+```xml
+<repository>
+    <id>rethinkjava-mvn-repo</id>
+    <url>https://raw.github.com/dkhenry/rethinkjava/mvn-repo/</url>
+    <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+    </snapshots>
+</repository>
+
+```
 
 Then in your dependencides section add the following 
-  <dependency>
+```xml
+<dependency>
     <groupId>com.dkhenry</groupId>
     <artifactId>rethinkjava</artifactId>
     <version>0.1</version>    
   </dependency>
+```
 
 ## Whats Working 
 Right now communicating with the Server works. Also If you pull in this artifact you should have access to the entire Protobuf API so if you're in a hurry you can just construct raw querys and send them using the RqlConneciton class. 
