@@ -7,6 +7,23 @@ Java/JVM Drivers for RethinkDB ( rethinkdb.com )
 # Status 
 This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability, or safety of this code. 
 
+## Using rethinkjava 
+Add the following to your pom.xml
+<distributionManagement>
+    <repository>
+        <id>github</id>
+        <name>GitHub ${project.artifactId} Repository</name>
+        <url>https://raw.github.com/YOUR-GITHUB-USERNAME/${project.artifactId}/mvn-repo</url>
+    </repository>
+</distributionManagement>
+
+Then in your dependencides section add the following 
+  <dependency>
+    <groupId>com.dkhenry</groupId>
+    <artifactId>rethinkjava</artifactId>
+    <version>0.1</version>    
+  </dependency>
+
 ## Whats Working 
 Right now communicating with the Server works. Also If you pull in this artifact you should have access to the entire Protobuf API so if you're in a hurry you can just construct raw querys and send them using the RqlConneciton class. 
 
