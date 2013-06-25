@@ -123,33 +123,5 @@ public class ConnectionTest {
 			rvalue = true;
 		}
 		org.junit.Assert.assertFalse("Error Droping Table", rvalue);
-	}
-	
-	/* Test Generation of the protobuf messages */ 
-	@Test 
-	public void testRqlQueryDatum() { 		
-		try {
-			System.out.println((new RqlQuery.Datum("Hello World")).build().toString());
-			
-			RqlConnection r = RqlConnection.connect("localhost",28015);
-			System.out.println(r.db("test").table_create("tv_shows").build().toString());
-			System.out.println(r.table("tv_shows").insert(Arrays.asList(new HashMap() {{ put("id",10.0); }})).build().toString());
-			
-			RqlQuery query = new RqlMethodQuery.Insert(							
-							new RqlQuery.Table(new RqlTopLevelQuery.DB("test"),"first"),
-							Arrays.asList(
-									new HashMap() {{ put("id",10.0); }},
-									new HashMap() {{ put("id",11.0); }},
-									new HashMap() {{ put("id",12.0); }}
-							)
-					);
-			com.rethinkdb.Ql2.Response resp = r.run(query);
-			System.out.println(resp.toString());
-			r.close();
-			
-		} catch (Exception ex) {
-			ex.printStackTrace(System.out);
-		}
-		org.junit.Assert.assertFalse("This can't happen", false);
 	}	
 }

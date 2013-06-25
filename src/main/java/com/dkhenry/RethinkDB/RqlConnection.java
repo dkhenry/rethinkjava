@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
 import com.rethinkdb.Ql2.Query;
 import com.rethinkdb.Ql2.Response;
-import com.rethinkdb.Ql2.Term;
 
 public class RqlConnection {
 	private SocketChannel _sc;    
@@ -54,14 +53,21 @@ public class RqlConnection {
 		}
 	}
 	
-	public Response run(RqlQuery query) throws RqlDriverException {
+	public Object run(RqlQuery query) throws RqlDriverException {
 		Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();		
 		q.setType(Query.QueryType.START);
 		q.setToken(nextToken()); 
 		q.setQuery(query.build());
 		try { 
 			send_raw(q.build().toByteArray());
-			return recv_raw();
+			Response rsp = recv_raw(); 
+			
+			// For this version we only support success :-(
+			if (rsp.getType() == Response.ResponseType.SUCCESS_ATOM) { 
+				return Datum.deconstruct(rsp.getResponse(0));
+			} else {
+				throw new RqlDriverException(rsp.toString());
+			}			
 		} catch (IOException ex) { 
 			throw new RqlDriverException(ex.getMessage());
 			

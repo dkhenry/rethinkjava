@@ -7,6 +7,11 @@ Java/JVM Drivers for RethinkDB ( rethinkdb.com )
 # Status 
 This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability, or safety of this code. 
 
+## Changelog 
+
+* 0.1 (June 2012) Initial push of project and first support for Maven
+* 0.2 (June 2012) Added the rest of the Rql language to driver and provided method to deconstruct responces.
+
 ## Using rethinkjava 
 Add the following to your pom.xml
 ```xml
