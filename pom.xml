@@ -4,7 +4,7 @@
 
   <groupId>com.dkhenry</groupId>
   <artifactId>rethinkjava</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
 
   <name>rethinkjava</name>
@@ -13,7 +13,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
+  <distributionManagement>
+    <repository>
+        <id>github</id>
+        <name>GitHub ${project.artifactId} Repository</name>
+        <url>https://raw.github.com/dkhenry/${project.artifactId}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
   <build>
     <plugins>
       <plugin>
@@ -55,25 +61,55 @@
           </execution>
 		</executions>
 	  </plugin>
-    </plugins>
-  </build>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>protoc-plugin</id>
-            <url>http://sergei-ivanov.github.com/maven-protoc-plugin/repo/releases/</url>
-        </pluginRepository>
-    </pluginRepositories>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-	<dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>2.4.1</version>
-	</dependency>
-  </dependencies>
+	  <plugin>
+		<artifactId>maven-deploy-plugin</artifactId>
+		<version>2.7</version>
+		<configuration>
+          <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+		</configuration>
+	  </plugin>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.7</version>
+        <configuration>
+          <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+          <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+          <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+          <includes><include>**/*</include></includes>
+          <repositoryName>rethinkjava</repositoryName>      <!-- github repo name -->
+          <repositoryOwner>dkhenry</repositoryOwner>    <!-- github username  -->
+        </configuration>
+        <executions>
+          <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+      </plugin>
+  </plugins>
+</build>
+<pluginRepositories>
+  <pluginRepository>
+    <id>protoc-plugin</id>
+    <url>http://sergei-ivanov.github.com/maven-protoc-plugin/repo/releases/</url>
+  </pluginRepository>
+</pluginRepositories>
+<dependencies>
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.11</version>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>com.google.protobuf</groupId>
+    <artifactId>protobuf-java</artifactId>
+    <version>2.4.1</version>
+  </dependency>
+</dependencies>
 </project>
