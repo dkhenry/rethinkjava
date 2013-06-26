@@ -57,22 +57,41 @@ public class RqlConnection {
 		Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();		
 		q.setType(Query.QueryType.START);
 		q.setToken(nextToken()); 
-		q.setQuery(query.build());
-		try { 
+		q.setQuery(query.build());	
+		try {
 			send_raw(q.build().toByteArray());
-			Response rsp = recv_raw(); 
-			
-			// For this version we only support success :-(
-			if (rsp.getType() == Response.ResponseType.SUCCESS_ATOM) { 
-				return Datum.deconstruct(rsp.getResponse(0));
-			} else {
-				throw new RqlDriverException(rsp.toString());
-			}			
 		} catch (IOException ex) { 
 			throw new RqlDriverException(ex.getMessage());
-			
 		}
-		 
+		Response rsp = get(); 
+
+		// For this version we only support success :-(
+		if (rsp.getType() == Response.ResponseType.SUCCESS_ATOM) { 
+			return Datum.deconstruct(rsp.getResponse(0));
+		} else {
+			throw new RqlDriverException(rsp.toString());
+		}							
+	}
+	
+	public Response get() throws RqlDriverException {
+		try {
+			return recv_raw();
+		} catch (IOException ex) { 
+			throw new RqlDriverException(ex.getMessage());
+		}
+	}
+	
+	public Response get_more(long token) throws RqlDriverException {
+		// Send the [CONTINUE] query 
+		Query.Builder q = com.rethinkdb.Ql2.Query.newBuilder()
+					.setType(Query.QueryType.CONTINUE)
+					.setToken(token);
+		try { 
+			send_raw(q.build().toByteArray());
+			return recv_raw();
+		} catch (IOException ex) {
+			throw new RqlDriverException(ex.getMessage());
+		}
 	}
 	
 	/* Utility functions to make a pretty API */
