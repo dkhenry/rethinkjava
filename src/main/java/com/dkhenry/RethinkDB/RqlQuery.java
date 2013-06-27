@@ -28,6 +28,7 @@ abstract public class RqlQuery {
 	
 	abstract protected Term.TermType tt() ;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> RqlQuery eval(T t) {
 		if( t instanceof RqlQuery) { 
 			return (RqlQuery)t;

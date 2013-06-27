@@ -65,29 +65,29 @@ public class Datum {
     }
     
     public static Object deconstruct(com.rethinkdb.Ql2.Datum d) throws RqlDriverException {
-    	if(d.getType() == com.rethinkdb.Ql2.Datum.DatumType.R_NULL) { 
+    	switch(d.getType()) { 
+    	case R_NULL:
     		return null;
-    	} else if(d.getType() == com.rethinkdb.Ql2.Datum.DatumType.R_BOOL) {
-    		return d.getRBool();
-    	} else if(d.getType() == com.rethinkdb.Ql2.Datum.DatumType.R_NUM) {
-    		return d.getRNum();
-    	} else if(d.getType() == com.rethinkdb.Ql2.Datum.DatumType.R_STR) {
+    	case R_BOOL:
+    		return Boolean.valueOf(d.getRBool());
+    	case R_NUM:
+    		return Double.valueOf(d.getRNum());
+    	case R_STR:
     		return d.getRStr();
-    	} else if(d.getType() == com.rethinkdb.Ql2.Datum.DatumType.R_ARRAY) {
+    	case R_ARRAY:
     		ArrayList<Object> l = new ArrayList<Object>(); 
     		for(com.rethinkdb.Ql2.Datum datum :d.getRArrayList()) {
     			l.add(deconstruct(datum));
     		}
     		return l;
-    	} else if(d.getType() == com.rethinkdb.Ql2.Datum.DatumType.R_OBJECT) {
+    	case R_OBJECT:
     		HashMap<String,Object> m = new HashMap<String, Object>();
     		for(com.rethinkdb.Ql2.Datum.AssocPair ap :d.getRObjectList()) {
     			m.put(ap.getKey(),deconstruct(ap.getVal()));
     		}
     		return m;
-    	} else {
+    	default:
     		throw new RqlDriverException("Unknown Dataum Type " + d.getType().toString() + " presented for Deconstruction") ;
-    	}    	
-    	
+    	}
     }
 }

@@ -53,7 +53,7 @@ public class RqlConnection {
 		}
 	}
 	
-	public Object run(RqlQuery query) throws RqlDriverException {
+	public RqlCursor run(RqlQuery query) throws RqlDriverException {
 		Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();		
 		q.setType(Query.QueryType.START);
 		q.setToken(nextToken()); 
@@ -66,10 +66,16 @@ public class RqlConnection {
 		Response rsp = get(); 
 
 		// For this version we only support success :-(
-		if (rsp.getType() == Response.ResponseType.SUCCESS_ATOM) { 
-			return Datum.deconstruct(rsp.getResponse(0));
-		} else {
-			throw new RqlDriverException(rsp.toString());
+		switch(rsp.getType()) {
+		case SUCCESS_ATOM:
+		case SUCCESS_SEQUENCE:
+		case SUCCESS_PARTIAL:
+			return new RqlCursor(this,rsp);
+		case CLIENT_ERROR:
+		case COMPILE_ERROR:
+		case RUNTIME_ERROR:
+		default:
+			throw new RqlDriverException(rsp.toString());							
 		}							
 	}
 	
