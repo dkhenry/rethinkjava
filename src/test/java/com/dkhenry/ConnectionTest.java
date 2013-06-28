@@ -1,6 +1,7 @@
 package com.dkhenry;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ public class ConnectionTest {
 		} catch (RqlDriverException e) {
 			rvalue = true; 
 		}
-		org.junit.Assert.assertFalse("Error Connecting", rvalue);
+		AssertJUnit.assertFalse("Error Connecting", rvalue);
 	}
 	
 	/* Test the functionality of the ten minute Introduction */
@@ -37,7 +38,7 @@ public class ConnectionTest {
 			e.printStackTrace();
 			rvalue = true;
 		}
-		org.junit.Assert.assertFalse("Error Creating Datrabase", rvalue);
+		AssertJUnit.assertFalse("Error Creating Datrabase", rvalue);
 	}
 	
 	@Test
@@ -54,7 +55,7 @@ public class ConnectionTest {
 			e.printStackTrace();
 			rvalue = true;
 		}	
-		org.junit.Assert.assertFalse("Error Listing Databases", rvalue);
+		AssertJUnit.assertFalse("Error Listing Databases", rvalue);
 	}
 	
 	@Test
@@ -71,7 +72,7 @@ public class ConnectionTest {
 			e.printStackTrace();
 			rvalue =  true;
 		}	
-		org.junit.Assert.assertFalse("Error Droping Databases", rvalue);
+		AssertJUnit.assertFalse("Error Droping Databases", rvalue);
 	}
 	
 	@Test
@@ -88,7 +89,7 @@ public class ConnectionTest {
 			e.printStackTrace();
 			rvalue = true;
 		}
-		org.junit.Assert.assertFalse("Error Creating Table", rvalue);
+		AssertJUnit.assertFalse("Error Creating Table", rvalue);
 	}
 	
 	@Test
@@ -105,7 +106,7 @@ public class ConnectionTest {
 			e.printStackTrace();
 			rvalue = true;
 		}
-		org.junit.Assert.assertFalse("Error Listing Tables", rvalue);
+		AssertJUnit.assertFalse("Error Listing Tables", rvalue);
 	}
 	
 	@Test
@@ -122,6 +123,6 @@ public class ConnectionTest {
 			e.printStackTrace();
 			rvalue = true;
 		}
-		org.junit.Assert.assertFalse("Error Droping Table", rvalue);
+		AssertJUnit.assertFalse("Error Droping Table", rvalue);
 	}	
 }
