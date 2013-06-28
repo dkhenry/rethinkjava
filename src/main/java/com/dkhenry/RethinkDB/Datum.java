@@ -36,7 +36,17 @@ public class Datum {
     }
     /* For any type we haven't specialized we are going to cast to a string */ 
     public static <T> com.rethinkdb.Ql2.Datum datum(T t) { 
-    	return datum(t.toString());
+    	if(t instanceof Boolean) {
+    		return datum((Boolean) t);
+    	} else if( Number.class.isAssignableFrom(t.getClass()) ) {
+    		return datum(((Number)t).doubleValue());
+    	} else if( t instanceof List) { 
+    		return datum((List) t);
+    	} else if( t instanceof Map) {
+    		return datum((Map) t);
+    	} else {
+    		return datum(t.toString());
+    	}
     }
     
     // The R Array
