@@ -31,7 +31,10 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			//r.db_create('superheroes').run(conn)
-			System.out.println(r.run(r.db_create("superheroes")).toString());			
+			RqlCursor cursor = r.run(r.db_create("superheroes"));
+			for(RqlObject o : cursor) { 				
+				System.out.println("Created " + o.getAs("created") + " tables"); 
+			}
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -48,7 +51,7 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			//r.db_list().run(conn)
-			System.out.println(r.run(r.db_list()).toString());			
+			r.run(r.db_list());			
 			r.close();
 		} 		
 		catch (RqlDriverException e) {

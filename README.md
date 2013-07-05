@@ -7,10 +7,13 @@ Java/JVM Drivers for RethinkDB ( rethinkdb.com )
 # Status 
 This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability, or safety of this code. 
 
+This driver is working with API version 1.0 ( RethinkDB 1.5, 1.6, 1.7 ) 
+
 ## Changelog 
 
 * 0.1 (June 2012) Initial push of project and first support for Maven
 * 0.2 (June 2012) Added the rest of the Rql language to driver and provided method to deconstruct responces.
+* 0.3 (July 2012) Fixed Errors in Datum Encoding and RqlCursors. Added More testing
 
 ## Using rethinkjava 
 Add the following to your pom.xml
@@ -43,6 +46,8 @@ Also The Database administration querys should be working ( db_create, db_drop, 
 There _is_ support for inserting right now, but Its not well tested. 
 
 ##Whats not working 
+Authentication in the API 
+
 Any form of reads or updates 
 
 Actualy testing of everything

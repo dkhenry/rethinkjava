@@ -7,6 +7,10 @@ import com.dkhenry.RethinkDB.errors.RqlDriverException;
 public class RqlObject {
 
 	private com.rethinkdb.Ql2.Datum _underlying;
+	
+	public String toString() {
+		return _underlying.toString();			
+	}
 	public RqlObject() {
 			
 	}

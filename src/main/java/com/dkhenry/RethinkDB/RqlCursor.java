@@ -30,7 +30,7 @@ public class RqlCursor implements Iterable<RqlObject> ,Iterator<RqlObject> {
 
 	@Override
 	public boolean hasNext() {
-		return _response.getType() == Response.ResponseType.SUCCESS_PARTIAL || _index <= _response.getResponseCount() ; 
+		return _response.getType() == Response.ResponseType.SUCCESS_PARTIAL || _index < _response.getResponseCount() ; 
 	}
 
 	@Override
