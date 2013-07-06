@@ -131,7 +131,8 @@ public class RqlConnection {
 		return rvalue;
 	}
 
-
+		
+	/* Private methods */ 
 	private void reconnect() throws RqlDriverException{ 
 		try {
 			if( _connected ) {

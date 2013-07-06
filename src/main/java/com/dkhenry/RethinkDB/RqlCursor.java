@@ -12,6 +12,10 @@ public class RqlCursor implements Iterable<RqlObject> ,Iterator<RqlObject> {
 	private Response _response; 
 	private int _index; 
 	
+	public String toString() { 
+		return _response.toString();
+	}
+	
 	public RqlCursor(RqlConnection conn) {
 		_connection = conn;
 		_index = 0;

@@ -34,7 +34,7 @@ Then in your dependencides section add the following
 <dependency>
     <groupId>com.dkhenry</groupId>
     <artifactId>rethinkjava</artifactId>
-    <version>0.1</version>    
+    <version>0.1</version>
   </dependency>
 ```
 
@@ -43,7 +43,7 @@ Right now communicating with the Server works. Also If you pull in this artifact
 
 Also The Database administration querys should be working ( db_create, db_drop, db_list, table_create, table_drop, table_list )
 
-There _is_ support for inserting right now, but Its not well tested. 
+There _is_ support for inserting and retrieving, but not all the retrieval methods and implemented or tested. 
 
 ##Whats not working 
 Authentication in the API 
@@ -72,10 +72,10 @@ I want to keep this API as close to the official API's as I can. This is an exam
     r.db("test").table_create("characters");
     // A simple Insert
     r.db("test").table("characters").insert(Arrays.asList(
-				    new HashMap() {{ put("name","Worf");put("show","Star Trek TNG") }},
-				    new HashMap() {{ put("name","Data");put("show","Star Trek TNG") }},
-				    new HashMap() {{ put("name","William Adama");put("show","Battlestar Galactica") }}, 
-				    new HashMap() {{ put("name","Homer Simpson");put("show","The Simpsons") }}
+				    new HashMap() {{ put("name","Worf");put("show","Star Trek TNG"); }},
+				    new HashMap() {{ put("name","Data");put("show","Star Trek TNG"); }},
+				    new HashMap() {{ put("name","William Adama");put("show","Battlestar Galactica"); }}, 
+				    new HashMap() {{ put("name","Homer Simpson");put("show","The Simpsons"); }}
 				));
 
     // Then a Simple Query

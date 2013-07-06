@@ -32,9 +32,6 @@ public class ConnectionTest {
 			r = RqlConnection.connect("localhost",28015);
 			//r.db_create('superheroes').run(conn)
 			RqlCursor cursor = r.run(r.db_create("superheroes"));
-			for(RqlObject o : cursor) { 				
-				System.out.println("Created " + o.getAs("created") + " tables"); 
-			}
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -68,7 +65,7 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			//r.db_drop('superheroes').run(conn)
-			System.out.println(r.run(r.db_drop("superheroes")).toString());			
+			r.run(r.db_drop("superheroes")).toString();			
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -85,7 +82,7 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			// r.db('test').table_create('dc_universe').run(conn)
-			System.out.println(r.run(r.db("test").table_create("dc_universe")).toString());			
+			r.run(r.db("test").table_create("dc_universe")).toString();			
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -102,7 +99,7 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			// r.db('test').table_list().run(conn)
-			System.out.println(r.run(r.db("test").table_list()).toString());			
+			r.run(r.db("test").table_list()).toString();			
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -119,7 +116,7 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			// r.db('test').table_drop('dc_universe').run(conn)
-			System.out.println(r.run(r.db("test").table_drop("dc_universe")).toString());			
+			r.run(r.db("test").table_drop("dc_universe")).toString();			
 			r.close();
 		} 		
 		catch (RqlDriverException e) {

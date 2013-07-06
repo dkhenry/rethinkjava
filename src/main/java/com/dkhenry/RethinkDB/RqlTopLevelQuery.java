@@ -62,6 +62,14 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 			rvalue.construct(o);						
 			return rvalue;
 		}
+		public RqlQuery.Table table(Object... args) {
+			RqlQuery.Table rvalue = new RqlQuery.Table();
+			Object[] o = new Object[args.length+1];
+			o[0] = this;
+			System.arraycopy(args,0,o,1,args.length);			
+			rvalue.construct(o);						
+			return rvalue;
+		}		
 	}
 	
 	public static class DbCreate extends RqlTopLevelQuery {

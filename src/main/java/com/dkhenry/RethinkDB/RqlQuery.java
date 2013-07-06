@@ -199,6 +199,14 @@ abstract public class RqlQuery {
 			rvalue.construct(o);
 			return rvalue;
 		}
+		public RqlMethodQuery.Filter filter(Object ...args) { 
+			Object[] o = new Object[args.length+1];
+			o[0] = this;
+			System.arraycopy(args,0,o,1,args.length);
+			RqlMethodQuery.Filter rvalue =  new RqlMethodQuery.Filter();
+			rvalue.construct(o);
+			return rvalue;
+		}
 	}
 	
 	public static class Nth extends RqlQuery {
