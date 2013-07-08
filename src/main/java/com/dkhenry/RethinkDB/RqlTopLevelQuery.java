@@ -1,5 +1,7 @@
 package com.dkhenry.RethinkDB;
 
+import java.lang.reflect.Constructor;
+
 import com.rethinkdb.Ql2.Term;
 import com.rethinkdb.Ql2.Term.TermType;
 
@@ -15,6 +17,16 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 		@Override
 		protected TermType tt() {			
 			return Term.TermType.JAVASCRIPT;
+		}
+	}
+	public static class Json extends RqlTopLevelQuery {
+		public Json(Object ...args) { 
+			construct(args);
+		}
+		
+		@Override
+		protected TermType tt() { 
+			return Term.TermType.JSON;
 		}
 	}
 	
@@ -39,36 +51,16 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 		}
 		
 		public RqlMethodQuery.TableCreate table_create(Object... args) {
-			RqlMethodQuery.TableCreate rvalue = new RqlMethodQuery.TableCreate();
-			Object[] o = new Object[args.length+1];
-			o[0] = this;
-			System.arraycopy(args,0,o,1,args.length);			
-			rvalue.construct(o);						
-			return rvalue;
+			return prepend_construct(args, RqlMethodQuery.TableCreate.class);			
 		}
 		public RqlMethodQuery.TableDrop table_drop(Object... args) {
-			RqlMethodQuery.TableDrop rvalue = new RqlMethodQuery.TableDrop();
-			Object[] o = new Object[args.length+1];
-			o[0] = this;
-			System.arraycopy(args,0,o,1,args.length);			
-			rvalue.construct(o);						
-			return rvalue;
+			return prepend_construct(args, RqlMethodQuery.TableDrop.class);			
 		}
 		public RqlMethodQuery.TableList table_list(Object... args) {
-			RqlMethodQuery.TableList rvalue = new RqlMethodQuery.TableList();
-			Object[] o = new Object[args.length+1];
-			o[0] = this;
-			System.arraycopy(args,0,o,1,args.length);			
-			rvalue.construct(o);						
-			return rvalue;
+			return prepend_construct(args, RqlMethodQuery.TableList.class);			
 		}
 		public RqlQuery.Table table(Object... args) {
-			RqlQuery.Table rvalue = new RqlQuery.Table();
-			Object[] o = new Object[args.length+1];
-			o[0] = this;
-			System.arraycopy(args,0,o,1,args.length);			
-			rvalue.construct(o);						
-			return rvalue;
+			return prepend_construct(args, RqlMethodQuery.Table.class);			
 		}		
 	}
 	
