@@ -14,6 +14,7 @@ This driver is working with API version 1.0 ( RethinkDB 1.5, 1.6, 1.7 )
 * 0.1 (June 2012) Initial push of project and first support for Maven
 * 0.2 (June 2012) Added the rest of the Rql language to driver and provided method to deconstruct responces.
 * 0.3 (July 2012) Fixed Errors in Datum Encoding and RqlCursors. Added More testing
+* 0.4 (July 2012) Added the instance methods so API looks much like the python API. Further testing added. 
 
 ## Using rethinkjava 
 Add the following to your pom.xml
@@ -39,29 +40,29 @@ Then in your dependencides section add the following
 ```
 
 ## Whats Working 
-Right now communicating with the Server works. Also If you pull in this artifact you should have access to the entire Protobuf API so if you're in a hurry you can just construct raw querys and send them using the RqlConneciton class. 
+Connecting, Reading, and Writing work as expected ( mostly ) 
 
 Also The Database administration querys should be working ( db_create, db_drop, db_list, table_create, table_drop, table_list )
-
-There _is_ support for inserting and retrieving, but not all the retrieval methods and implemented or tested. 
 
 ##Whats not working 
 Authentication in the API 
 
-Any form of reads or updates 
+Using functions as arguments in any part of the API
 
 Actualy testing of everything
 
 Formal Examples. 
 
 # How you can Help 
-Make the testing better ( This is actually really important going forwards ) 
+Make the testing better ( This is actually really important ) 
 
 Fork the repo and make pull requests 
 
 Submit defects and feature request 
 
-Create some kind of documentation 
+Create some kind of documentation ( java docs on all the instance methods would be awesome ) 
+
+Converting the instance methods to actually take in parmaters ( this will help in finding compile time defects, and documentation )
 
 # Planned API 
 I want to keep this API as close to the official API's as I can. This is an example of what I will try to accomplish
@@ -85,6 +86,7 @@ I want to keep this API as close to the official API's as I can. This is an exam
 
 # License 
 rethinkjava - Java Drivers for RethinkDB
+
     Copyright (C) 2013  D.K.
 
     This program is free software: you can redistribute it and/or modify
