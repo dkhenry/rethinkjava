@@ -114,171 +114,186 @@ abstract public class RqlQuery {
 		return prepend_construct(args,RqlMethodQuery.Without.class);
 	}
 	
-	// Stand in for default ( default is a reserved keyword 
+	// Stand in for default ( default is a reserved keyword ) 
 	public RqlQuery.Default def(Object ...args) {
 		return prepend_construct(args,RqlQuery.Default.class);
 	}
 	
 	// Stand in for do ( do is a reserved keyword )
-	public RqlQuery.FunCall call(Object function,Object ...args) {		
+	public RqlQuery.FunCall call(Object ...args) {		
 		return prepend_construct(args,RqlQuery.FunCall.class);
 	}
+	
+	public RqlMethodQuery.Update update(Object ...args) {		
+		return prepend_construct(args,RqlMethodQuery.Update.class);
+	}
+	
+	public RqlMethodQuery.Replace replace(Object ...args) {		
+		return prepend_construct(args,RqlMethodQuery.Replace.class);
+	}
+	
+	public RqlMethodQuery.Delete delete(Object ...args) {		
+		return prepend_construct(args,RqlMethodQuery.Delete.class);
+	}
+	
+	public RqlMethodQuery.CoerceTo coerce_to(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.CoerceTo.class);
+	}
+	
+	public RqlMethodQuery.TypeOf type_of(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.TypeOf.class);
+	}
+	
+	public RqlMethodQuery.Merge merge(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Merge.class);
+	}
+	
+	public RqlMethodQuery.Append append(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Append.class);
+	}
 
-	/* Convience Methods to make a pretty API */
+	public RqlMethodQuery.Prepend prepend(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Prepend.class);
+	}
+	
+	public RqlMethodQuery.Difference difference(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Difference.class);
+	}
+	
+	public RqlMethodQuery.SetInsert set_insert(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.SetInsert.class);
+	}
+	
+	public RqlMethodQuery.SetUnion set_union(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.SetUnion.class);
+	}
+	
+	public RqlMethodQuery.SetIntersection set_intersection(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.SetIntersection.class);
+	}
+	
+	public RqlMethodQuery.SetDifference set_difference(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.SetDifference.class);
+	}
+	
+	public RqlQuery.Nth nth(Object ...args) {
+		return prepend_construct(args,RqlQuery.Nth.class);
+	}
+	
+	public RqlQuery.Match match(Object ...args) {
+		return prepend_construct(args,RqlQuery.Match.class);
+	}
+	
+	public RqlMethodQuery.IsEmpty is_empty(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.IsEmpty.class);
+	}
+	
+	public RqlQuery.Slice slice(Object ...args) {
+		return prepend_construct(args,RqlQuery.Slice.class);
+	}
+	
+	public RqlMethodQuery.Skip skip(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Skip.class);
+	}
+	
+	public RqlMethodQuery.Limit limit(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Limit.class);
+	}
+	
+	public RqlMethodQuery.OrderBy order_by(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.OrderBy.class);
+	}
+	
+	public RqlMethodQuery.Distinct distinct(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.Distinct.class);
+	}
+	
+	public RqlMethodQuery.Union union(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.Union.class);
+	}
+	
+	public RqlMethodQuery.InnerJoin inner_join(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.InnerJoin.class);
+	}
+	
+	public RqlMethodQuery.OuterJoin outer_join(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.OuterJoin.class);
+	}
+	
+	public RqlMethodQuery.Zip zip(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.Zip.class);
+	}
+	
+	public RqlMethodQuery.Info info(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.Info.class);
+	}
+	
+	public RqlMethodQuery.InsertAt insert_at(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.InsertAt.class);
+	}
+	
+	public RqlMethodQuery.SpliceAt splice_at(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.SpliceAt.class);
+	}
+	
+	public RqlMethodQuery.DeleteAt delete_at(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.DeleteAt.class);
+	}
+	
+	public RqlMethodQuery.ChangeAt change_at(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.ChangeAt.class);
+	}
+	
+	public RqlMethodQuery.Sample sample(Object ...args) { 
+		return prepend_construct(args,RqlMethodQuery.Sample.class);
+	}
+	
 	/*
-
-    # Polymorphic object/sequence operations
-    def do(self, func):
-        return FunCall(func_wrap(func), self)
-   
-    def update(self, func, non_atomic=(), durability=(), return_vals=()):
-        return Update(self, func_wrap(func), non_atomic=non_atomic,
-                      durability=durability, return_vals=return_vals)
-
-    def replace(self, func, non_atomic=(), durability=(), return_vals=()):
-        return Replace(self, func_wrap(func), non_atomic=non_atomic,
-                       durability=durability, return_vals=return_vals)
-
-    def delete(self, durability=(), return_vals=()):
-        return Delete(self, durability=durability, return_vals=return_vals)
-
-    # Rql type inspection
-    def coerce_to(self, other_type):
-        return CoerceTo(self, other_type)
-
-    def type_of(self):
-        return TypeOf(self)
-
-    def merge(self, other):
-        return Merge(self, other)
-
-    def append(self, val):
-        return Append(self, val)
-
-    def prepend(self, val):
-        return Prepend(self, val)
-
-    def difference(self, val):
-        return Difference(self, val)
-
-    def set_insert(self, val):
-        return SetInsert(self, val)
-
-    def set_union(self, val):
-        return SetUnion(self, val)
-
-    def set_intersection(self, val):
-        return SetIntersection(self, val)
-
-    def set_difference(self, val):
-        return SetDifference(self, val)
-
-    # Operator used for get attr / nth / slice. Non-operator versions below
-    # in cases of ambiguity
-    def __getitem__(self, index):
-        if isinstance(index, slice):
-            return Slice(self, index.start or 0, index.stop or -1)
-        elif isinstance(index, int):
-            return Nth(self, index)
-        elif isinstance(index, types.StringTypes):
-            return GetField(self, index)
-
-    def nth(self, index):
-        return Nth(self, index)
-
-    def match(self, pattern):
-        return Match(self, pattern)
-
-    def is_empty(self):
-        return IsEmpty(self)
-
-    def indexes_of(self, val):
-        return IndexesOf(self,func_wrap(val))
-
-    def slice(self, left=None, right=None):
-        return Slice(self, left, right)
-
-    def skip(self, index):
-        return Skip(self, index)
-
-    def limit(self, index):
-        return Limit(self, index)
-
-    def reduce(self, func, base=()):
-        return Reduce(self, func_wrap(func), base=base)
-
-    def map(self, func):
-        return Map(self, func_wrap(func))
-
-    def filter(self, func, default=()):
-        return Filter(self, func_wrap(func), default=default)
-
-    def concat_map(self, func):
-        return ConcatMap(self, func_wrap(func))
-
-    def order_by(self, *obs):
-        return OrderBy(self, *obs)
-
-    def between(self, left_bound=None, right_bound=None, index=()):
-        return Between(self, left_bound, right_bound, index=index)
-
-    def distinct(self):
-        return Distinct(self)
-
-    # NB: Can't overload __len__ because Python doesn't
-    #     allow us to return a non-integer
-    def count(self, filter=()):
-        if filter == ():
-            return Count(self)
-        else:
-            return Count(self, func_wrap(filter))
-
-    def union(self, *others):
-        return Union(self, *others)
-
-    def inner_join(self, other, predicate):
-        return InnerJoin(self, other, predicate)
-
-    def outer_join(self, other, predicate):
-        return OuterJoin(self, other, predicate)
-
-    def eq_join(self, left_attr, other, index=()):
-        return EqJoin(self, left_attr, other, index=index)
-
-    def zip(self):
-        return Zip(self)
-
-    def grouped_map_reduce(self, grouping, mapping, data_collector, base=()):
-        return GroupedMapReduce(self, func_wrap(grouping), func_wrap(mapping),
-            func_wrap(data_collector), base=base)
-
-    def group_by(self, arg1, arg2, *rest):
-        args = [arg1, arg2] + list(rest)
-        return GroupBy(self, list(args[:-1]), args[-1])
-
-    def for_each(self, mapping):
-        return ForEach(self, func_wrap(mapping))
-
-    def info(self):
-        return Info(self)
-
-    # Array only operations
-    def insert_at(self, index, value):
-        return InsertAt(self, index, value)
-
-    def splice_at(self, index, values):
-        return SpliceAt(self, index, values)
-
-    def delete_at(self, *indexes):
-        return DeleteAt(self, *indexes);
-
-    def change_at(self, index, value):
-        return ChangeAt(self, index, value);
-
-    def sample(self, count):
-        return Sample(self, count)
+	 * Note: The following are suposed to be able to use functions
+	 * I don't know exactly how to handle this and just want to get 
+	 * some of this functionality in place before I make it all perty
 	 */
-
+	
+	public RqlMethodQuery.IndexesOf indexes_of(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.IndexesOf.class);
+	}
+	
+	public RqlMethodQuery.Reduce reduce(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Reduce.class);
+	}
+	
+	public RqlMethodQuery.Map map(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Map.class);
+	}
+	
+	public RqlMethodQuery.Filter filter(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Filter.class);
+	}
+	
+	public RqlMethodQuery.ConcatMap concat_map(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.ConcatMap.class);
+	}
+	
+	public RqlMethodQuery.Between between(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.Between.class);
+	}
+	
+	public RqlMethodQuery.EqJoin eq_join(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.EqJoin.class);
+	}
+	
+	public RqlMethodQuery.GroupedMapReduce grouped_map_reduce(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.GroupedMapReduce.class);
+	}
+	
+	public RqlMethodQuery.GroupBy group_by(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.GroupBy.class);
+	}
+	
+	public RqlMethodQuery.ForEach for_each(Object ...args) {
+		return prepend_construct(args,RqlMethodQuery.ForEach.class);
+	}
+		
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> RqlQuery eval(T t) {
 		if( t instanceof RqlQuery) { 
@@ -442,21 +457,32 @@ abstract public class RqlQuery {
 			return Term.TermType.TABLE;
 		}
 
-		public RqlMethodQuery.Insert insert(Object... args) { 
-			Object[] o = new Object[args.length+1];
-			o[0] = this;
-			System.arraycopy(args,0,o,1,args.length);
-			RqlMethodQuery.Insert rvalue =  new RqlMethodQuery.Insert();
-			rvalue.construct(o);
-			return rvalue;
+		public RqlMethodQuery.Insert insert(Object... args) {
+			return prepend_construct(args,RqlMethodQuery.Insert.class);			
 		}
+		
+		public RqlMethodQuery.Get get(Object ...args) { 
+			return prepend_construct(args, RqlMethodQuery.Get.class);
+		}
+		
+		public RqlMethodQuery.GetAll get_all(Object ...args) { 
+			return prepend_construct(args, RqlMethodQuery.GetAll.class);
+		}
+		
+		public RqlMethodQuery.IndexCreate index_create(Object ...args) { 
+			return prepend_construct(args, RqlMethodQuery.IndexCreate.class);
+		}
+		
+		public RqlMethodQuery.IndexDrop index_drop(Object ...args) { 
+			return prepend_construct(args, RqlMethodQuery.IndexDrop.class);
+		}
+		
+		public RqlMethodQuery.IndexList index_list(Object ...args) { 
+			return prepend_construct(args, RqlMethodQuery.IndexList.class);
+		}
+		
 		public RqlMethodQuery.Filter filter(Object ...args) { 
-			Object[] o = new Object[args.length+1];
-			o[0] = this;
-			System.arraycopy(args,0,o,1,args.length);
-			RqlMethodQuery.Filter rvalue =  new RqlMethodQuery.Filter();
-			rvalue.construct(o);
-			return rvalue;
+			return prepend_construct(args,RqlMethodQuery.Filter.class);			
 		}
 	}
 
