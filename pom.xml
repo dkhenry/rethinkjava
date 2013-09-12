@@ -5,7 +5,7 @@
 
 	<groupId>com.dkhenry</groupId>
 	<artifactId>rethinkjava</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<packaging>jar</packaging>
 
 	<name>rethinkjava</name>
@@ -139,7 +139,7 @@
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
-			<version>2.4.1</version>
+			<version>2.5.0</version>
 		</dependency>
 	</dependencies>
 	<description>Java bindings for rethinkdb</description>

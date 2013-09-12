@@ -82,9 +82,9 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			// r.db('test').table_create('dc_universe').run(conn)
-			r.run(r.db_create("test"));
-			r.run(r.db("test").table_create("dc_universe"));
-			r.run(r.db_drop("test"));
+			r.run(r.db_create("test12345"));
+			r.run(r.db("test12345").table_create("dc_universe"));
+			r.run(r.db_drop("test12345"));
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -101,9 +101,9 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			// r.db('test').table_list().run(conn)
-			r.run(r.db_create("test"));
-			r.run(r.db("test").table_list());
-			r.run(r.db_drop("test"));
+			r.run(r.db_create("test12345"));
+			r.run(r.db("test12345").table_list());
+			r.run(r.db_drop("test12345"));
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
@@ -120,10 +120,10 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			// r.db('test').table_drop('dc_universe').run(conn)
-			r.run(r.db_create("test"));
-			r.run(r.db("test").table_create("dc_universe"));
-			r.run(r.db("test").table_drop("dc_universe"));
-			r.run(r.db_drop("test"));
+			r.run(r.db_create("test12345"));
+			r.run(r.db("test12345").table_create("dc_universe"));
+			r.run(r.db("test12345").table_drop("dc_universe"));
+			r.run(r.db_drop("test12345"));
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
