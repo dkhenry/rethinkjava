@@ -107,7 +107,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>jacoco-initialize</id>
+						<id>jacoco-initialize</id>						
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>

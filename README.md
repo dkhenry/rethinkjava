@@ -64,6 +64,26 @@ Create some kind of documentation ( java docs on all the instance methods would 
 
 Converting the instance methods to actually take in parmaters ( this will help in finding compile time defects, and documentation )
 
+# Building From Source 
+Rethink Java uses Maven as its build system. If you want to build from source make sure you have 
+maven installed as well as the procol buffer compiler for java. On fedora this should get you the required packages 
+
+    yum install maven protobuf protobuf-java
+    
+Once you have the required packages and the source checked out you can build Rethink Java and install it to your local maven cache by running  
+
+    mvn clean install 
+    
+If you get a new ql2.proto file you _must_ add the package definition to the top of it ( package com.rethinkdb;)
+   
+Rethink Java also ships with a test suite which can be ran with the test target. You must be running a instance of rethink-db on localhost to run the tests 
+
+    mvn test 
+
+If your interested in the code coverage jacoco is configured to run a code coverage report after testing its located here 
+
+    target/site/jacoco/index.html
+ 
 # Planned API 
 I want to keep this API as close to the official API's as I can. This is an example of what I will try to accomplish
 
