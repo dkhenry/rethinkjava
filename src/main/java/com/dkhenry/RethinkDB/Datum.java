@@ -10,6 +10,12 @@ import com.dkhenry.RethinkDB.errors.RqlDriverException;
 
 public class Datum {
 	/* Datum Constructors */
+
+    public static com.rethinkdb.Ql2.Datum datum() {
+        return com.rethinkdb.Ql2.Datum.newBuilder()
+                .setType(com.rethinkdb.Ql2.Datum.DatumType.R_NULL)
+                .build();
+    }
 	/* We will specialize for all types defined in the protocol */
     public static com.rethinkdb.Ql2.Datum datum(Boolean b) {    	
     	return com.rethinkdb.Ql2.Datum.newBuilder()
@@ -32,11 +38,14 @@ public class Datum {
     
     /* We want to cast all "Numbers" to Doubles */
     public static<T extends Number> com.rethinkdb.Ql2.Datum datum(T n) {
-    	return datum(new Double(n.doubleValue()));
+    	return datum(n.doubleValue());
     }
+
     /* For any type we haven't specialized we are going to cast to a string */ 
-    public static <T> com.rethinkdb.Ql2.Datum datum(T t) { 
-    	if(t instanceof Boolean) {
+    public static <T> com.rethinkdb.Ql2.Datum datum(T t) {
+        if( null == t ) {
+            return datum();
+        } else if(t instanceof Boolean) {
     		return datum((Boolean) t);
     	} else if( Number.class.isAssignableFrom(t.getClass()) ) {
     		return datum(((Number)t).doubleValue());
@@ -79,9 +88,9 @@ public class Datum {
     	case R_NULL:
     		return null;
     	case R_BOOL:
-    		return Boolean.valueOf(d.getRBool());
+    		return d.getRBool();
     	case R_NUM:
-    		return Double.valueOf(d.getRNum());
+    		return d.getRNum();
     	case R_STR:
     		return d.getRStr();
     	case R_ARRAY:
