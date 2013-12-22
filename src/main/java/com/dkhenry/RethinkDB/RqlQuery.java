@@ -481,9 +481,14 @@ abstract public class RqlQuery {
 			return prepend_construct(args, RqlMethodQuery.IndexList.class);
 		}
 		
+		@Override
 		public RqlMethodQuery.Filter filter(Object ...args) { 
 			return prepend_construct(args,RqlMethodQuery.Filter.class);			
 		}
+		
+		public RqlMethodQuery.Count count(Object ...args) {
+			return prepend_construct(args,RqlMethodQuery.Count.class);
+		}		
 	}
 
 	public static class Nth extends RqlQuery {

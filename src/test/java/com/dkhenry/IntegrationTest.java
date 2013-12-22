@@ -86,7 +86,21 @@ public class IntegrationTest {
 			assert m.containsKey("show") : "Data that came back was malformed (missing \"show\")";
 			assert "Star Trek TNG".equals(m.get("show")): "Data that came back was just plain wrong (\"show\" was not \"Star Trek TNG\");" +								
 			count++; 			
-		}				
+		}
+		
+		cursor = r.run(r.db(database).table(table).count(new HashMap() {{ put("show","Star Trek TNG"); }}));
+		double rowCount = 0;
+		for(RqlObject o: cursor) {
+			rowCount = o.getNumber();
+		}		
+		assert rowCount == count : "Failed at getting the correct row count.";
+		
+		cursor = r.run(r.db(database).table(table).count());
+		for(RqlObject o: cursor) {
+			rowCount = o.getNumber();
+		}		
+		assert rowCount == 4.0 : "Failed at getting the correct row count.";		
+		
 		r.run(r.db(database).table_drop(table));				
 		r.run(r.db_drop(database)); 
 		r.close();
