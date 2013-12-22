@@ -5,7 +5,7 @@
 
 	<groupId>com.dkhenry</groupId>
 	<artifactId>rethinkjava</artifactId>
-	<version>0.6</version>
+	<version>0.7</version>
 	<packaging>jar</packaging>
 
 	<name>rethinkjava</name>
@@ -47,21 +47,9 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>com.google.protobuf.tools</groupId>
 				<artifactId>maven-protoc-plugin</artifactId>
-				<version>0.3.1</version>
+				<version>0.3.2</version>
 				<configuration>
 					<checkStaleness>true</checkStaleness>
 					<protocExecutable>/usr/bin/protoc</protocExecutable>
@@ -98,7 +86,7 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.8</version>
+				<version>0.9</version>
 				<configuration>
 					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
 					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
@@ -126,8 +114,6 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.6.3.201306030806</version>
 				<configuration>
-					<destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
-					<datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
 				</configuration>
 				<executions>
 					<execution>
