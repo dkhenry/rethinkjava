@@ -19,11 +19,11 @@ public class RqlObject {
 		_underlying = d;
 	}	
 	
-	public boolean getBoolean() throws RqlDriverException {
+	public Boolean getBoolean() throws RqlDriverException {
 		return as();		
 	}
 	
-	public double getNumber() throws RqlDriverException { 
+	public Double getNumber() throws RqlDriverException {
 		return as();
 	}
 	
