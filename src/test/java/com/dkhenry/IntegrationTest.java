@@ -4,9 +4,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.dkhenry.RethinkDB.*; 
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
@@ -105,4 +103,42 @@ public class IntegrationTest {
 		r.run(r.db_drop(database)); 
 		r.close();
 	}
+
+    @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+    @Test
+    public void largeDataSetTest() throws RqlDriverException {
+        final SecureRandom random = new SecureRandom();
+        String database = new BigInteger(130, random).toString(32);
+        String table = new BigInteger(130, random).toString(32);
+        RqlConnection r = RqlConnection.connect("localhost",28015);
+        r.run(r.db_create(database));
+        r.run(r.db(database).table_create(table));
+
+        List<Object> l = new ArrayList<Object>();
+        for( int i = 0 ; i < 8192 ; i++ ) {
+            l.add(
+                    new HashMap() {{
+                        put("id",new BigInteger(32,random).toString(32) );
+                        put("name",new BigInteger(64,random).toString(32));
+                    }}
+            );
+        }
+        RqlCursor cursor = r.run(r.db(database).table(table).insert( l ));
+        assert Double.valueOf(8192.0).equals(cursor.next().getAs("inserted")) : "Error inserting Data into Database";
+        cursor = r.run(r.db(database).table(table).count());
+        assert Double.valueOf(8192.0).equals(cursor.next().getNumber()) : "Error getting large row cound";
+
+        cursor = r.run(r.db(database).table(table));
+        long rowCount = 0;
+        for(RqlObject o: cursor) {
+            rowCount++;
+        }
+        assert rowCount == 8192 : "Error fetching all rows in large dataset";
+        System.out.println("We got " + rowCount + " results back ");
+
+        r.run(r.db(database).table_drop(table));
+        r.run(r.db_drop(database));
+        r.close();
+
+    }
 }
