@@ -161,4 +161,54 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 			return Term.TermType.BRANCH;
 		}
 	}
+
+    public static class Iso8601 extends RqlTopLevelQuery {
+        public Iso8601(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.ISO8601;
+        }
+    }
+
+    public static class EpochTime extends RqlTopLevelQuery {
+        public EpochTime(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.EPOCH_TIME;
+        }
+    }
+
+    public static class Now extends RqlTopLevelQuery {
+        public Now(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.NOW;
+        }
+    }
+
+    public static class Time extends RqlTopLevelQuery {
+        public Time(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.TIME;
+        }
+    }
+
+    public static class Literal extends RqlTopLevelQuery {
+        public Literal(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.LITERAL;
+        }
+    }
 }

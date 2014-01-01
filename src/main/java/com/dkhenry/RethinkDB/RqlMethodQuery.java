@@ -2,6 +2,7 @@ package com.dkhenry.RethinkDB;
 
 import com.rethinkdb.Ql2.Term.TermType;
 import com.rethinkdb.Ql2.Term;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDayDV;
 
 public abstract class RqlMethodQuery extends RqlQuery {
 	public static class Insert extends RqlMethodQuery {
@@ -537,5 +538,244 @@ public abstract class RqlMethodQuery extends RqlQuery {
 			return Term.TermType.SAMPLE;
 		}
 	}
+
+    public static class Sync extends RqlMethodQuery {
+        public Sync(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.SYNC;
+        }
+    }
+
+    public static class IndexStatus extends RqlMethodQuery {
+        public IndexStatus(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.INDEX_STATUS;
+        }
+    }
+
+    public static class IndexWait extends RqlMethodQuery {
+        public IndexWait(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.INDEX_WAIT;
+        }
+    }
+
+    public static class Upcase extends RqlMethodQuery {
+        public Upcase(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.UPCASE;
+        }
+    }
+
+    public static class Downcase extends RqlMethodQuery {
+        public Downcase(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.DOWNCASE;
+        }
+    }
+
+    public static class ToIso8601 extends RqlMethodQuery {
+        public ToIso8601(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.TO_ISO8601;
+        }
+    }
+
+    public static class ToEpocTime extends RqlMethodQuery {
+        public ToEpocTime(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.TO_EPOCH_TIME;
+        }
+    }
+
+    public static class InTimezone extends RqlMethodQuery {
+        public InTimezone(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.IN_TIMEZONE;
+        }
+    }
+
+    public static class During extends RqlMethodQuery {
+        public During(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.DURING;
+        }
+    }
+
+    public static class Date extends RqlMethodQuery {
+        public Date(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.DATE;
+        }
+    }
+
+    public static class TimeOfDay extends RqlMethodQuery {
+        public TimeOfDay(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.TIME_OF_DAY;
+        }
+    }
+
+    public static class Timezone extends RqlMethodQuery {
+        public Timezone(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.TIMEZONE;
+        }
+    }
+
+    public static class Year extends RqlMethodQuery {
+        public Year(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.YEAR;
+        }
+    }
+
+    public static class Month extends RqlMethodQuery {
+        public Month(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.MONTH;
+        }
+    }
+
+    public static class Day extends RqlMethodQuery {
+        public Day(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.DAY;
+        }
+    }
+
+    public static class DayOfWeek extends RqlMethodQuery {
+        public DayOfWeek(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.DAY_OF_WEEK;
+        }
+    }
+
+    public static class DayOfYear extends RqlMethodQuery {
+        public DayOfYear(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.DAY_OF_YEAR;
+        }
+    }
+
+    public static class Hours extends RqlMethodQuery {
+        public Hours(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.HOURS;
+        }
+    }
+
+    public static class Minutes extends RqlMethodQuery {
+        public Minutes(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.MINUTES;
+        }
+    }
+
+    public static class Seconds extends RqlMethodQuery {
+        public Seconds(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.SECONDS;
+        }
+    }
+
+    public static class Monday extends RqlMethodQuery {
+        public Monday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType.MONDAY;
+        }
+    }
+
+    public static class Tuesday extends RqlMethodQuery {
+        public Tuesday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return Term.TermType. ;
+        }
+    }
+    /*
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+    Sunday
+    January
+    February
+    March
+    April
+    May
+    June
+    July
+    August
+    September
+    October
+    November
+    December
+    */
 }
 
