@@ -18,7 +18,7 @@ This driver is working with API version 1.0 ( RethinkDB 1.5, 1.6, 1.7 )
 * 0.5 (September 2013) Modified the license to conform to the rest of the RethinkDB driver licenses
 * 0.6 (September 2013) Updated to latest version of The query language Protobuf. Added javadocs and source jar's to
 deployment
-* 0.7 (december 2013) Fixed error encoding NULL. Updated protobuf to most recent version ( 1.11.2 )
+* 0.7 (December 2013) Fixed error encoding NULL. Updated protobuf to most recent version ( 1.11.2 )
 
 ## Using rethinkjava 
 Add the following to your pom.xml

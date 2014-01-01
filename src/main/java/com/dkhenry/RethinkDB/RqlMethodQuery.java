@@ -520,7 +520,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 	}
 
 	public static class ChangeAt extends RqlMethodQuery {
-		public  ChangeAt(Object ...args) {
+		public ChangeAt(Object ...args) {
 			construct(args);
 		}
 		@Override
@@ -530,7 +530,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 	}
 
 	public static class Sample extends RqlMethodQuery {
-		public  Sample(Object ...args) {
+		public Sample(Object ...args) {
 			construct(args);
 		}
 		@Override
@@ -599,8 +599,8 @@ public abstract class RqlMethodQuery extends RqlQuery {
         }
     }
 
-    public static class ToEpocTime extends RqlMethodQuery {
-        public ToEpocTime(Object ...args) {
+    public static class ToEpochTime extends RqlMethodQuery {
+        public ToEpochTime(Object ...args) {
             construct(args);
         }
         @Override
@@ -755,27 +755,162 @@ public abstract class RqlMethodQuery extends RqlQuery {
         }
         @Override
         protected TermType tt() {
-            return Term.TermType. ;
+            return TermType.TUESDAY ;
         }
     }
-    /*
-    Wednesday
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    January
-    February
-    March
-    April
-    May
-    June
-    July
-    August
-    September
-    October
-    November
-    December
-    */
+
+    public static class Wednesday extends RqlMethodQuery {
+        public Wednesday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.WEDNESDAY ;
+        }
+    }
+    public static class Thursday extends RqlMethodQuery {
+        public Thursday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.THURSDAY ;
+        }
+    }
+    public static class Friday extends RqlMethodQuery {
+        public Friday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.FRIDAY ;
+        }
+    }
+    public static class Saturday extends RqlMethodQuery {
+        public Saturday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.SATURDAY ;
+        }
+    }
+    public static class Sunday extends RqlMethodQuery {
+        public Sunday(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.SUNDAY ;
+        }
+    }
+    public static class January extends RqlMethodQuery {
+        public January(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.JANUARY ;
+        }
+    }
+    public static class February extends RqlMethodQuery {
+        public February(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.FEBRUARY ;
+        }
+    }
+    public static class March extends RqlMethodQuery {
+        public March(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.MARCH ;
+        }
+    }
+    public static class April extends RqlMethodQuery {
+        public April(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.APRIL ;
+        }
+    }
+    public static class May extends RqlMethodQuery {
+        public May(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.MAY ;
+        }
+    }
+    public static class June extends RqlMethodQuery {
+        public June(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.JUNE ;
+        }
+    }
+    public static class July extends RqlMethodQuery {
+        public July(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.JULY ;
+        }
+    }
+    public static class August extends RqlMethodQuery {
+        public August(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.AUGUST ;
+        }
+    }
+    public static class September extends RqlMethodQuery {
+        public September(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.SEPTEMBER ;
+        }
+    }
+    public static class October extends RqlMethodQuery {
+        public October(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.OCTOBER ;
+        }
+    }
+    public static class November extends RqlMethodQuery {
+        public November(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.NOVEMBER ;
+        }
+    }
+    public static class December extends RqlMethodQuery {
+        public December(Object ...args) {
+            construct(args);
+        }
+        @Override
+        protected TermType tt() {
+            return TermType.DECEMBER ;
+        }
+    }
 }
 
