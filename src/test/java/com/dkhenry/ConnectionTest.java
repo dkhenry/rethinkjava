@@ -1,20 +1,10 @@
 package com.dkhenry;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 import com.dkhenry.RethinkDB.RqlConnection;
 import com.dkhenry.RethinkDB.RqlCursor;
-import com.dkhenry.RethinkDB.RqlMethodQuery;
-import com.dkhenry.RethinkDB.RqlMethodQuery.Get;
-import com.dkhenry.RethinkDB.RqlObject;
-import com.dkhenry.RethinkDB.RqlMethodQuery.Filter;
-import com.dkhenry.RethinkDB.RqlQuery.Table;
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
 
 
