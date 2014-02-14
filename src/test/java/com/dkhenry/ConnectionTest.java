@@ -1,5 +1,8 @@
 package com.dkhenry;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
@@ -61,12 +64,15 @@ public class ConnectionTest {
 		try {
 			r = RqlConnection.connect("localhost",28015);
 			r.set_port(28016);
-			r.set_hostname("prova");
+			r.set_hostname(InetAddress.getLocalHost().getCanonicalHostName());
 			r.close();
 		} 		
 		catch (RqlDriverException e) {
 			rvalue = true;
 		}
+                catch (UnknownHostException e) {
+                        rvalue = true;
+                }
 		AssertJUnit.assertTrue("Error Connecting", rvalue);
 	}
 	
