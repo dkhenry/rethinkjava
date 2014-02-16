@@ -205,18 +205,4 @@ public class ConnectionTest {
 		}
 		AssertJUnit.assertFalse("Error Connecting", rvalue);
 	}
-	
-	@Test
-	public void testChangePort() {
-		boolean rvalue = false;
-		RqlConnection r;
-		try {
-			r = RqlConnection.connect("localhost",28015);
-			r.set_port(28016);
-		} 		
-		catch (RqlDriverException e) {
-			rvalue = true;
-		}
-		AssertJUnit.assertTrue("Error Connecting", rvalue);
-	}
 }
