@@ -16,9 +16,6 @@ public class DatumTest {
 		byte[] expected = com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_NULL).build().toByteArray();
 		byte[] actual = Datum.datum().toByteArray();
 		AssertJUnit.assertArrayEquals(expected, actual);
-		
-		actual = Datum.datum().toByteArray();
-		AssertJUnit.assertArrayEquals(expected, actual);
 	}
 	
 	@Test
