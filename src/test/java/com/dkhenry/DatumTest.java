@@ -1,14 +1,25 @@
 package com.dkhenry;
 
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.dkhenry.RethinkDB.Datum;;
+import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
+
+import com.dkhenry.RethinkDB.Datum;
 
 public class DatumTest {
+	
+	@Test
+	public void testDatumNull() {
+		byte[] expected = com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_NULL).build().toByteArray();
+		byte[] actual = Datum.datum().toByteArray();
+		AssertJUnit.assertArrayEquals(expected, actual);
+		
+		actual = Datum.datum().toByteArray();
+		AssertJUnit.assertArrayEquals(expected, actual);
+	}
 	
 	@Test
 	public void testDatumBool() {
@@ -92,6 +103,8 @@ public class DatumTest {
 	
 	@Test
 	public void testDatumArrayNested() { 
+		HashMap h = new HashMap() {{ put("SuperAwesomeKey",true); }};
+		
 		com.rethinkdb.Ql2.Datum.Builder d =  com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_ARRAY);
 		d.addRArrayBuilder()
 			.setType(com.rethinkdb.Ql2.Datum.DatumType.R_BOOL)
@@ -107,10 +120,16 @@ public class DatumTest {
 		.addRArrayBuilder()
 			.setType(com.rethinkdb.Ql2.Datum.DatumType.R_BOOL)
 			.setRBool(true);
-		
+		d.addRArrayBuilder()
+			.setType(com.rethinkdb.Ql2.Datum.DatumType.R_OBJECT)
+		.addRObjectBuilder()
+			.setKey("SuperAwesomeKey")
+			.setVal(com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_BOOL).setRBool(true));
+		d.addRArrayBuilder()
+			.setType(com.rethinkdb.Ql2.Datum.DatumType.R_NULL);
 					
 		byte[] expected = d.build().toByteArray();				
-		byte[] actual = Datum.datum(Arrays.asList(true,1.0,"SuperAwesomeTest",Arrays.asList(true))).toByteArray();
+		byte[] actual = Datum.datum(Arrays.asList(true,1.0,"SuperAwesomeTest",Arrays.asList(true),h,null)).toByteArray();
 		
 		AssertJUnit.assertArrayEquals(expected, actual);
 		
@@ -123,7 +142,9 @@ public class DatumTest {
 			.setKey("SuperAwesomeKey")
 			.setVal(com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_BOOL).setRBool(true));		
 		byte[] expected = d.build().toByteArray();				
-		byte[] actual = Datum.datum( (new HashMap() {{ put("SuperAwesomeKey",true); }}) ).toByteArray();
+		HashMap h = new HashMap() {{ put("SuperAwesomeKey",true); }};
+		com.rethinkdb.Ql2.Datum datum = Datum.datum( h );
+		byte[] actual = datum.toByteArray();
 		
 		AssertJUnit.assertArrayEquals(expected, actual);
 	}	

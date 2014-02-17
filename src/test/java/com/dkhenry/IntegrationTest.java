@@ -1,12 +1,19 @@
 package com.dkhenry;
 
-import org.testng.annotations.Test;
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import com.dkhenry.RethinkDB.*; 
+import org.testng.annotations.Test;
+
+import com.dkhenry.RethinkDB.RqlConnection;
+import com.dkhenry.RethinkDB.RqlCursor;
+import com.dkhenry.RethinkDB.RqlObject;
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
 
 public class IntegrationTest {
@@ -82,25 +89,59 @@ public class IntegrationTest {
 			Map<String,Object> m = o.getMap(); 
 			assert m.containsKey("name") : "Data that came back was malformed (missing \"name\")";
 			assert m.containsKey("show") : "Data that came back was malformed (missing \"show\")";
-			assert "Star Trek TNG".equals(m.get("show")): "Data that came back was just plain wrong (\"show\" was not \"Star Trek TNG\");" +								
-			count++; 			
+			assert "Star Trek TNG".equals(m.get("show")): "Data that came back was just plain wrong (\"show\" was not \"Star Trek TNG\");";								
+			count++; 		
 		}
 		
-		cursor = r.run(r.db(database).table(table).count(new HashMap() {{ put("show","Star Trek TNG"); }}));
+		cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("name","donald duck");put("show","Disney show"); }}).is_empty());
+		Boolean isEmpty = null;
+		for(RqlObject o: cursor) {
+			isEmpty = o.getBoolean();
+		}		
+		assert isEmpty == true : "Failed at verifying query resultset is empty.";
+		
+		cursor = r.run(r.db(database).table(table).count());
 		double rowCount = 0;
 		for(RqlObject o: cursor) {
 			rowCount = o.getNumber();
 		}		
-		assert rowCount == count : "Failed at getting the correct row count.";
+		assert rowCount == 4.0 : "Failed at getting the correct row count.";	
 		
-		cursor = r.run(r.db(database).table(table).count());
-		for(RqlObject o: cursor) {
-			rowCount = o.getNumber();
-		}		
-		assert rowCount == 4.0 : "Failed at getting the correct row count.";		
+        r.run(r.db(database).table_drop(table));
+        r.run(r.db_drop(database));		
+		r.close();
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+	@Test
+	public void insertAndRetrieveSingleRow() throws RqlDriverException {
+		SecureRandom random = new SecureRandom();
+		String database = new BigInteger(130, random).toString(32);
+		String table = new BigInteger(130, random).toString(32);
+		RqlConnection r = RqlConnection.connect("localhost",28015);
+		r.run(r.db_create(database));
+		r.run(r.db(database).table_create(table));
 		
-		r.run(r.db(database).table_drop(table));				
-		r.run(r.db_drop(database)); 
+		RqlCursor cursor = r.run(r.db(database).table(table).insert( Arrays.asList(				
+				new HashMap() {{ put("name","Worf");put("show","Star Trek TNG"); }},
+			    new HashMap() {{ put("name","Data");put("show","Star Trek TNG"); }},
+			    new HashMap() {{ put("name","William Adama");put("show","Battlestar Galactica"); }}, 
+			    new HashMap() {{ put("name","Homer Simpson");put("show","The Simpsons"); }}
+		)));
+		
+		List generatedKeys = cursor.next().getAs("generated_keys");
+		
+		Iterator it = generatedKeys.iterator();
+		
+		while (it.hasNext()){
+			cursor = r.run(r.db(database).table(table).get(it.next()));
+			for(RqlObject o: cursor) {
+				assert o.toString() != null : "Failed to get single row";
+			}				
+		}
+		
+        r.run(r.db(database).table_drop(table));
+        r.run(r.db_drop(database));		
 		r.close();
 	}
 

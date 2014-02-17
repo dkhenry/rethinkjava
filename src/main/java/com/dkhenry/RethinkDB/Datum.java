@@ -106,7 +106,7 @@ public class Datum {
     		}
     		return m;
     	default:
-    		throw new RqlDriverException("Unknown Dataum Type " + d.getType().toString() + " presented for Deconstruction") ;
+    		throw new RqlDriverException("Unknown Datum Type " + d.getType().toString() + " presented for Deconstruction") ;
     	}
     }
 }
