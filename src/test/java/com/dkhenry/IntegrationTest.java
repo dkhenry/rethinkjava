@@ -17,7 +17,7 @@ import com.dkhenry.RethinkDB.RqlObject;
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
 
 public class IntegrationTest {
-	@Test
+	@Test(groups={"acceptance"})
 	public void createAndListDb() throws RqlDriverException {		 
 		SecureRandom random = new SecureRandom();
 		String database = new BigInteger(130, random).toString(32);
@@ -34,14 +34,14 @@ public class IntegrationTest {
 				break; 
 			}				
 		}
-		assert found == true : "Databse was not able to be listed";			
+		assert found == true : "Database was not able to be listed";
 		cursor = r.run(r.db_drop(database));
 		obj = cursor.next(); 
 		assert Double.valueOf(1.0).equals(obj.getAs("dropped")) : "Database was not dropped successfully ";
 		r.close();
 	}
 
-	@Test
+	@Test(groups={"acceptance"})
 	public void createAndListTable() throws RqlDriverException { 
 		SecureRandom random = new SecureRandom();
 		String database = new BigInteger(130, random).toString(32);
@@ -66,7 +66,7 @@ public class IntegrationTest {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-	@Test
+	@Test(groups={"acceptance"})
 	public void insertAndRetrieveData() throws RqlDriverException {
 		SecureRandom random = new SecureRandom();
 		String database = new BigInteger(130, random).toString(32);
@@ -113,7 +113,7 @@ public class IntegrationTest {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-	@Test
+	@Test(groups={"acceptance"})
 	public void insertAndRetrieveSingleRow() throws RqlDriverException {
 		SecureRandom random = new SecureRandom();
 		String database = new BigInteger(130, random).toString(32);
@@ -147,7 +147,7 @@ public class IntegrationTest {
 
 
     @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-    @Test
+    @Test(groups={"benchmark"})
     public void largeDataSetTest() throws RqlDriverException {
         final double rowsPerIteration = 8192.0;
         final double numberOfIterations = 256.0;

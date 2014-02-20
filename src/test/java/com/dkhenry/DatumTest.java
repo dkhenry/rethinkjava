@@ -11,14 +11,14 @@ import com.dkhenry.RethinkDB.Datum;
 
 public class DatumTest {
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumNull() {
 		byte[] expected = com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_NULL).build().toByteArray();
 		byte[] actual = Datum.datum().toByteArray();
 		AssertJUnit.assertArrayEquals(expected, actual);
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumBool() {
 		byte[] expected = com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_BOOL).setRBool(true).build().toByteArray();
 		byte[] actual = Datum.datum(true).toByteArray();
@@ -28,7 +28,7 @@ public class DatumTest {
 		AssertJUnit.assertArrayEquals(expected, actual);
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumNumber() { 
 		byte[] expected = com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_NUM).setRNum(1.0).build().toByteArray();
 		byte[] actual = Datum.datum(1.0).toByteArray();
@@ -55,7 +55,7 @@ public class DatumTest {
 		AssertJUnit.assertArrayEquals(expected, actual);
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumString() {
 		byte[] expected = com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_STR).setRStr("SuperAwesomeTest").build().toByteArray();
 		byte[] actual = Datum.datum("SuperAwesomeTest").toByteArray();
@@ -63,7 +63,7 @@ public class DatumTest {
 		AssertJUnit.assertArrayEquals(expected, actual);
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumArraySimple() { 
 		com.rethinkdb.Ql2.Datum.Builder d =  com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_ARRAY);
 		d.addRArrayBuilder()
@@ -79,7 +79,7 @@ public class DatumTest {
 		AssertJUnit.assertArrayEquals(expected, actual);	
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumArrayMixed() { 
 		com.rethinkdb.Ql2.Datum.Builder d =  com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_ARRAY);
 		d.addRArrayBuilder()
@@ -98,7 +98,7 @@ public class DatumTest {
 		AssertJUnit.assertArrayEquals(expected, actual);	
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumArrayNested() { 
 		HashMap h = new HashMap() {{ put("SuperAwesomeKey",true); }};
 		
@@ -132,7 +132,7 @@ public class DatumTest {
 		
 	}
 	
-	@Test
+	@Test(groups={"acceptance"})
 	public void testDatumObject() { 
 		com.rethinkdb.Ql2.Datum.Builder d =  com.rethinkdb.Ql2.Datum.newBuilder().setType(com.rethinkdb.Ql2.Datum.DatumType.R_OBJECT);
 		d.addRObjectBuilder()

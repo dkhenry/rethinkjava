@@ -13,16 +13,21 @@ import java.util.HashMap;
 
 public class RegressionTests {
     @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-    @Test
+    @Test(groups={"regression"})
     public void insertNullAsValueParamater() throws RqlDriverException {
         SecureRandom random = new SecureRandom();
         String database = new BigInteger(130, random).toString(32);
         String table = new BigInteger(130, random).toString(32);
         RqlConnection r = RqlConnection.connect("localhost",28015);
         RqlCursor cursor = r.run(r.db_create(database));
+
         RqlObject obj = cursor.next();
         assert Double.valueOf(1.0).equals(obj.getAs("created")) : "Database was not created successfully ";
 
+        cursor = r.run(r.db(database).table_create(table));
+        obj = cursor.next();
+
+        assert Double.valueOf(1.0).equals(obj.getAs("created")) : "Table was not created successfully";
         cursor = r.run(r.db(database).table(table).insert( Arrays.asList(
                 new HashMap() {{
                     put("TestForNullInsert", null);
@@ -30,7 +35,7 @@ public class RegressionTests {
         )));
         assert Double.valueOf(1.0).equals(cursor.next().getAs("inserted")) : "Error inserting null value into Database";
 
-        cursor = r.run(r.db(database).table(table).get());
+        cursor = r.run(r.db(database).table(table).get_all("TestForNullInsert"));
         obj = cursor.next();
         assert obj.getAs("TestForNullInsert") == null : "Error Getting null value out of database";
 

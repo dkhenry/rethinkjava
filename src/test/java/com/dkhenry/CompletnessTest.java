@@ -34,7 +34,7 @@ public class CompletnessTest {
 		return types.iterator();
 	}
 	
-	@Test(dataProvider="termTypeNames")
+	@Test(dataProvider="termTypeNames",groups={"acceptance"})
 	public void testTermImplementation(String type) throws ClassNotFoundException{ 			
 		try {
 			Class.forName("com.dkhenry.RethinkDB.RqlQuery$"+type);

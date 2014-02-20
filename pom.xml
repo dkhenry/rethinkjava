@@ -5,7 +5,7 @@
 
 	<groupId>com.dkhenry</groupId>
 	<artifactId>rethinkjava</artifactId>
-	<version>0.8-SNAPSHOT</version>
+	<version>0.8</version>
 	<packaging>jar</packaging>
 
 	<name>rethinkjava</name>
@@ -130,7 +130,16 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <parallel>methods</parallel>
+                    <threadCount>1</threadCount>
+                    <groups>acceptance, regression</groups>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 	<pluginRepositories>

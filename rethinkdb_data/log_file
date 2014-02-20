@@ -1,0 +1,12 @@
+2014-02-20T07:16:47.971207000 0.004396s info: Creating directory /Users/dan/svn-src/rethinkjava/rethinkdb_data
+2014-02-20T07:16:47.971376000 0.004564s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/dan/svn-src/rethinkjava/rethinkdb_data' did not already exist.)
+2014-02-20T07:16:47.971428000 0.004617s info: Running rethinkdb 1.11.2 (CLANG 5.0 (clang-500.2.79))...
+2014-02-20T07:16:47.977816000 0.011004s info: Running on Darwin 13.0.2 x86_64
+2014-02-20T07:16:47.977847000 0.011035s info: Loading data from directory /Users/dan/svn-src/rethinkjava/rethinkdb_data
+2014-02-20T07:16:48.103768000 0.136956s info: Listening for intracluster connections on port 29015
+2014-02-20T07:16:48.104959000 0.138147s info: Listening for client driver connections on port 28015
+2014-02-20T07:16:48.104986000 0.138174s info: Listening for administrative HTTP connections on port 8080
+2014-02-20T07:16:48.104989000 0.138177s info: Listening on addresses: 127.0.0.1, ::1
+2014-02-20T07:16:48.104990000 0.138178s info: To fully expose RethinkDB on the network, bind to all addresses
+2014-02-20T07:16:48.104990000 0.138178s info: by running rethinkdb with the `--bind all` command line option.
+2014-02-20T07:16:48.104991000 0.138179s info: Server ready
