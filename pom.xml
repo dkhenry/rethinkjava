@@ -92,6 +92,8 @@
 					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
 					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
 					<branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+                    <merge>true</merge>
+                    <force>true</force>
 					<includes>
 						<include>**/*</include>
 					</includes>
