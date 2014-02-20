@@ -4,3 +4,7 @@ target/
 .settings/
 .idea/
 *.iml
+rethinkdb_data
+rethinkdb_data/
+rethinkdb_data/*
+rethinkdb_data/metadata
