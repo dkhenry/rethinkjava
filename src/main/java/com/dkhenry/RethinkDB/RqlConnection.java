@@ -16,31 +16,64 @@ public class RqlConnection {
 	private String _hostname;
 	private int _port; 
 	private boolean _connected;
+
+    //! Flag to indicate if this is a secured connection
+    private boolean _secured;
+
+    //! The authorization key for this connection
+    private String _authKey;
  
 	//! A global counter for the request tokens; 
 	private static AtomicLong counter = new AtomicLong(0);
 
 	public RqlConnection() { 
-		_connected = false; 
+		_connected = false;
+        _secured = false;
 	}
+
+    public RqlConnection(String key) {
+        _connected = false;
+        _secured = true;
+        _authKey = key;
+    }
 
 	public String get_hostname() { return _hostname; }
 	public void set_hostname(String hostname) throws RqlDriverException {
+        set_hostname2(hostname,true);
+    }
+    public void set_hostname2(String hostname, boolean reconnect) throws RqlDriverException {
 		String ohostname = _hostname;
 		_hostname = hostname; 
-		if(_connected && hostname != ohostname) { 
+		if(reconnect && _connected && hostname != ohostname) {
 			reconnect();
 		}
 	}
 
 	public int get_port() { return _port; }
-	public void set_port(int port) throws RqlDriverException { 
+	public void set_port(int port) throws RqlDriverException {
+        set_port2(port,true);
+    }
+    public void set_port2(int port, boolean reconnect) throws RqlDriverException {
 		int oport = _port; 
 		_port = port; 
-		if(_connected && oport != port) { 
+		if(reconnect && _connected && oport != port) {
 			reconnect();
 		}
 	}
+
+    public String get_authKey() { return _authKey; }
+    public void set_authKey(String authKey) throws RqlDriverException {
+        set_authKey2(authKey, true);
+    }
+    public void set_authKey2(String authKey, boolean reconnect) throws RqlDriverException {
+        String okey = _authKey;
+        _authKey = authKey;
+        _secured = (authKey != null) ;
+
+        if(reconnect && _connected && okey != authKey) {
+            reconnect();
+        }
+    }
 
 	public void close() throws RqlDriverException { 
 		if( _connected ) {
@@ -143,13 +176,29 @@ public class RqlConnection {
 			_sc.connect(new InetSocketAddress(_hostname,_port));
 
 			ByteBuffer buffer = ByteBuffer.allocate(4); 
-			buffer.order(ByteOrder.LITTLE_ENDIAN);		
-			buffer.putInt(com.rethinkdb.Ql2.VersionDummy.Version.V0_1_VALUE);
+			buffer.order(ByteOrder.LITTLE_ENDIAN);
+            if( _secured ) {
+			    buffer.putInt(com.rethinkdb.Ql2.VersionDummy.Version.V0_2_VALUE);
+                buffer.putInt(_authKey.length());
+                buffer.put(_authKey.getBytes());
+            } else {
+                buffer.putInt(com.rethinkdb.Ql2.VersionDummy.Version.V0_1_VALUE);
+            }
 
 			buffer.flip();
 			while(buffer.hasRemaining()) { 
 				_sc.write(buffer);
-			}	   					
+			}
+
+            // If we are working with a v2 connection then we need to get the response string
+            if( _secured ) {
+                ByteBuffer response = ByteBuffer.allocate(4096);
+                _sc.read(response);
+                String s = new String(response.array(), "UTF-8");
+                if(s.equals("SUCCESS")) {
+                    throw new RqlDriverException(s);
+                }
+            }
 
 			_connected = true;
 		} catch (IOException ex) { 
@@ -171,12 +220,23 @@ public class RqlConnection {
 	}
 	
 	public static RqlConnection connect(String hostname, int port) throws RqlDriverException { 
-		RqlConnection r = new RqlConnection(); 
-		r.set_hostname(hostname);
-		r.set_port(port);		
-		r.reconnect();
-		return r;
+		return connect2(hostname,port,null);
 	}
+
+    public static RqlConnection connect(String hostname, int port, String key) throws RqlDriverException {
+        return connect2(hostname,port,key);
+    }
+
+    private static RqlConnection connect2(String hostname, int port, String key) throws RqlDriverException {
+        RqlConnection r = new RqlConnection();
+        r.set_hostname2(hostname, false);
+        r.set_port2(port, false);
+        if( null != key ) {
+            r.set_authKey2(key, false);
+        }
+        r.reconnect();
+        return r;
+    }
 
 	public static void rethink_send(SocketChannel sc, byte[] data) throws IOException { 
 		ByteBuffer buffer = ByteBuffer.allocate(4+data.length); 

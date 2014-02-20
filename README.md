@@ -12,13 +12,14 @@ This driver is working with API version 1.0 ( RethinkDB 1.5, 1.6, 1.7 )
 ## Changelog 
 
 * 0.1 (June 2013) Initial push of project and first support for Maven
-* 0.2 (June 2013) Added the rest of the Rql language to driver and provided method to deconstruct responces.
+* 0.2 (June 2013) Added the rest of the Rql language to driver and provided method to deconstruct responses.
 * 0.3 (July 2013) Fixed Errors in Datum Encoding and RqlCursors. Added More testing
 * 0.4 (July 2013) Added the instance methods so API looks much like the python API. Further testing added. 
 * 0.5 (September 2013) Modified the license to conform to the rest of the RethinkDB driver licenses
 * 0.6 (September 2013) Updated to latest version of The query language Protobuf. Added javadocs and source jar's to
 deployment
 * 0.7 (December 2013) Fixed error encoding NULL. Updated protobuf to most recent version ( 1.11.2 )
+* 0.8 (Februrary 2014) Full support for v2 of the connection protocol including authentication
 
 ## Using rethinkjava 
 Add the following to your pom.xml
@@ -34,7 +35,7 @@ Add the following to your pom.xml
 
 ```
 
-Then in your dependencides section add the following 
+Then in your dependencies section add the following
 ```xml
 <dependency>
     <groupId>com.dkhenry</groupId>
@@ -53,8 +54,6 @@ Authentication in the API
 
 Using functions as arguments in any part of the API
 
-Actualy testing of everything
-
 Formal Examples. 
 
 # How you can Help 
@@ -66,7 +65,7 @@ Submit defects and feature request
 
 Create some kind of documentation ( java docs on all the instance methods would be awesome ) 
 
-Converting the instance methods to actually take in parmaters ( this will help in finding compile time defects, and documentation )
+Converting the instance methods to actually take in parameters ( this will help in finding compile time defects, and documentation )
 
 # Building From Source 
 Rethink Java uses Maven as its build system. If you want to build from source make sure you have 
@@ -79,17 +78,22 @@ Once you have the required packages and the source checked out you can build Ret
     mvn clean install 
     
 If you get a new ql2.proto file you _must_ add the package definition to the top of it ( package com.rethinkdb;)
-   
-Rethink Java also ships with a test suite which can be ran with the test target. You must be running a instance of rethink-db on localhost to run the tests 
 
+# Testing
+Rethink Java also ships with a test suite which can be ran with the test target. You must be running three instances of rethink-db on localhost to run the tests
+    rethinkdb --directory rethinkdb_data&
+    rethinkdb --port-offset 1 --directory rethinkdb_data1&
+    rethinkdb --port-offset 2 --directory rethinkdb_data2&
+    echo "set auth RETHUNK" | rethinkdb admin --join localhost:29017
+    sleep 5
     mvn test 
 
 If your interested in the code coverage jacoco is configured to run a code coverage report after testing its located here 
 
     target/site/jacoco/index.html
  
-# Planned API 
-I want to keep this API as close to the official API's as I can. This is an example of what I will try to accomplish
+# API
+The API should stay as close to the official API's as it can be. This is an example of what the current API looks like.
 
 
     RethinkDB r = RethinkDB.connect(hostname,port);
