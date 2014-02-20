@@ -27,7 +27,7 @@ public class SpeedTest {
 	@DataProvider(name="insertSizeCounters")
 	public Iterator<Object[]> termTypes() {
 		ArrayList<Object[]> counts = new ArrayList<Object[]>();
-		for(int i =0; i < 12 ; i++) {
+		for(int i =0; i < 16 ; i++) {
 			counts.add(new Integer[] { Integer.valueOf(Double.valueOf(Math.pow(2.0,i)).intValue()) } );
 		}
 		return counts.iterator();
@@ -44,9 +44,13 @@ public class SpeedTest {
 		r.run(r.db(database).table_create(table));
 		ArrayList<HashMap<String,String>> values = new ArrayList<HashMap<String,String>>();
 		for(int i = 0; i < count; i++) {
+            final String index = String.valueOf(i) ;
 			final String rkey = randomString(random,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",512);
 			final String rvalue = randomString(random,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",512);
-			values.add( new HashMap<String,String>() {{ put(rkey,rvalue); }} );
+			values.add( new HashMap<String,String>() {{
+                put("id",index);
+                put(rkey,rvalue);
+            }} );
 		}
 		try {
 			long start = System.nanoTime();

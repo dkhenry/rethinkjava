@@ -249,7 +249,7 @@ abstract public class RqlQuery {
 	}
 	
 	/*
-	 * Note: The following are suposed to be able to use functions
+	 * Note: The following are supposed to be able to use functions
 	 * I don't know exactly how to handle this and just want to get 
 	 * some of this functionality in place before I make it all perty
 	 */
