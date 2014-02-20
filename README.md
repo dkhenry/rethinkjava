@@ -40,7 +40,7 @@ Then in your dependencies section add the following
 <dependency>
     <groupId>com.dkhenry</groupId>
     <artifactId>rethinkjava</artifactId>
-    <version>0.7</version>
+    <version>0.8</version>
   </dependency>
 ```
 
