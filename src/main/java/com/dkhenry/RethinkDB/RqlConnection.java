@@ -31,12 +31,6 @@ public class RqlConnection {
         _secured = false;
 	}
 
-    public RqlConnection(String key) {
-        _connected = false;
-        _secured = true;
-        _authKey = key;
-    }
-
 	public String get_hostname() { return _hostname; }
 	public void set_hostname(String hostname) throws RqlDriverException {
         set_hostname2(hostname,true);
@@ -178,6 +172,8 @@ public class RqlConnection {
 			ByteBuffer buffer = ByteBuffer.allocate(4); 
 			buffer.order(ByteOrder.LITTLE_ENDIAN);
             if( _secured ) {
+                buffer = ByteBuffer.allocate(4 + 4 + _authKey.length());
+                buffer.order(ByteOrder.LITTLE_ENDIAN);
 			    buffer.putInt(com.rethinkdb.Ql2.VersionDummy.Version.V0_2_VALUE);
                 buffer.putInt(_authKey.length());
                 buffer.put(_authKey.getBytes());
