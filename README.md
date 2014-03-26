@@ -7,7 +7,7 @@ Java/JVM Drivers for RethinkDB ( rethinkdb.com )
 # Status 
 This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability, or safety of this code. 
 
-This driver is working with API version 1.0 ( RethinkDB 1.5, 1.6, 1.7 ) 
+This driver is working with API version 1.0 and 2.0 ( RethinkDB 1.5, 1.6, 1.7 .. 1.11) 
 
 ## Changelog 
 
@@ -50,7 +50,6 @@ Connecting, Reading, and Writing work as expected ( mostly )
 Also The Database administration querys should be working ( db_create, db_drop, db_list, table_create, table_drop, table_list )
 
 ##Whats not working 
-Authentication in the API 
 
 Using functions as arguments in any part of the API
 
