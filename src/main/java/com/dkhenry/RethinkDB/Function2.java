@@ -12,6 +12,6 @@ abstract public class Function2 extends Predicate.Predicate2 implements Apply2<R
 
     @Override
     protected RqlQuery internalApply(List<RqlQuery.Var> vars) {
-        return apply(vars.get(0), vars.get(0));
+        return apply(vars.get(0), vars.get(1));
     }
 }
