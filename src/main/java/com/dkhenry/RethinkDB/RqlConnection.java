@@ -158,6 +158,11 @@ public class RqlConnection {
 		return rvalue;
 	}
 
+	public RqlTopLevelQuery.Branch branch(Object... args) {
+		RqlTopLevelQuery.Branch rvalue = new RqlTopLevelQuery.Branch();
+		rvalue.construct(args);
+		return rvalue;
+	}
 		
 	/* Private methods */ 
 	private void reconnect() throws RqlDriverException{ 
