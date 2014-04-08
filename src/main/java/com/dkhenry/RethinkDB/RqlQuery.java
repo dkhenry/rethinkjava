@@ -1,11 +1,7 @@
 package com.dkhenry.RethinkDB;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import com.rethinkdb.Ql2.Term;
@@ -40,7 +36,20 @@ abstract public class RqlQuery {
 		}
 	}
 
-	public RqlQuery optargs(HashMap<String,Object> args) {
+    protected <T extends RqlQuery> T prepend_construst_with_optargs(Object[] args,Class<T> clazz,int args_required) {
+        HashMap<String,Object> optargs = null;
+        if( args.length > args_required && args[args.length-1] instanceof HashMap) {
+            optargs = (HashMap<String,Object>)args[args.length -1] ;
+            args = Arrays.copyOfRange(args, 0, args.length - 1);
+        }
+        T rvalue = prepend_construct(args,clazz);
+        if( null != optargs ) {
+            rvalue.optargs(optargs);
+        }
+        return rvalue;
+    }
+	
+	public RqlQuery optargs(HashMap<String,Object> args) { 
 		_optargs.putAll(args);
 		return this;
 	}
