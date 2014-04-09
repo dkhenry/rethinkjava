@@ -4,10 +4,14 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.dkhenry.RethinkDB.RqlMethodQuery;
+import com.rethinkdb.Ql2;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 import com.dkhenry.RethinkDB.Datum;
+
+import static javax.xml.bind.DatatypeConverter.printHexBinary;
 
 public class DatumTest {
 	
@@ -144,5 +148,57 @@ public class DatumTest {
 		byte[] actual = datum.toByteArray();
 		
 		AssertJUnit.assertArrayEquals(expected, actual);
-	}	
+	}
+
+    @Test(groups={"acceptance"})
+    public void testInsertBuilder() {
+        com.rethinkdb.Ql2.Term.Builder term = com.rethinkdb.Ql2.Term.newBuilder();
+        term.setType(Ql2.Term.TermType.INSERT);
+        term.addArgsBuilder()
+                .setType(Ql2.Term.TermType.MAKE_OBJ)
+                .addOptargsBuilder()
+                    .setKey("SuperAwesomeKey")
+                    .setVal(Ql2.Term.newBuilder()
+                                .setType(Ql2.Term.TermType.DATUM)
+                                .setDatum(Ql2.Datum.newBuilder()
+                                    .setType(Ql2.Datum.DatumType.R_BOOL)
+                                    .setRBool(true)
+                                )
+                    );
+        term.addOptargsBuilder()
+                .setKey("durability")
+                .setVal(Ql2.Term.newBuilder()
+                    .setType(Ql2.Term.TermType.DATUM)
+                    .setDatum(Ql2.Datum.newBuilder()
+                        .setType(Ql2.Datum.DatumType.R_STR)
+                        .setRStr("hard")
+                    )
+                );
+        term.addOptargsBuilder()
+                .setKey("returnVals")
+                .setVal(Ql2.Term.newBuilder()
+                        .setType(Ql2.Term.TermType.DATUM)
+                        .setDatum(Ql2.Datum.newBuilder()
+                                .setType(Ql2.Datum.DatumType.R_BOOL)
+                                .setRBool(false)
+                        )
+                );
+        term.addOptargsBuilder()
+                .setKey("upsert")
+                .setVal(Ql2.Term.newBuilder()
+                        .setType(Ql2.Term.TermType.DATUM)
+                        .setDatum(Ql2.Datum.newBuilder()
+                                .setType(Ql2.Datum.DatumType.R_BOOL)
+                                .setRBool(false)
+                        )
+                );
+
+        RqlMethodQuery.Insert t = new RqlMethodQuery.Insert(
+                new HashMap() {{ put("SuperAwesomeKey",true); }},
+                new HashMap() {{ put("durability", "hard"); put("returnVals",false); put("upsert",false); }}
+        );
+        byte[] expected = term.build().toByteArray();
+        byte[] actual = t.build().toByteArray();
+        AssertJUnit.assertArrayEquals(expected, actual);
+    }
 }

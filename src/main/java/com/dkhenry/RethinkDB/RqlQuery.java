@@ -24,6 +24,18 @@ abstract public class RqlQuery {
 		}
 	}
 
+    protected void construct_with_optargs(Object[] args, int args_required) {
+        HashMap<String,Object> opt = null;
+        if( args.length > args_required && args[args.length-1] instanceof HashMap) {
+            opt = (HashMap<String,Object>)args[args.length -1] ;
+            args = Arrays.copyOfRange(args, 0, args.length - 1);
+        }
+        construct(args);
+        if( null != opt ) {
+            optargs(opt);
+        }
+    }
+
 	protected <T extends RqlQuery> T prepend_construct(Object[] args,Class<T> clazz) {
 		try {
 			Constructor<T> ctor = clazz.getDeclaredConstructor(Object[].class);
@@ -36,7 +48,7 @@ abstract public class RqlQuery {
 		}
 	}
 
-    protected <T extends RqlQuery> T prepend_construst_with_optargs(Object[] args,Class<T> clazz,int args_required) {
+    protected <T extends RqlQuery> T prepend_construct_with_optargs(Object[] args,Class<T> clazz,int args_required) {
         HashMap<String,Object> optargs = null;
         if( args.length > args_required && args[args.length-1] instanceof HashMap) {
             optargs = (HashMap<String,Object>)args[args.length -1] ;
@@ -326,15 +338,16 @@ abstract public class RqlQuery {
 		for(RqlQuery q: _args) {
 			t.addArgs(q.build());
 		}
-
-		for(Entry<String,Object> e: _optargs.entrySet()) {
-			t.addOptargs(
-					Term.AssocPair.newBuilder()
-					.setKey(e.getKey())
-					.setVal(eval(e.getValue()).build())
-					.build()
-					);
-		}
+        if(! _optargs.isEmpty()) {
+            for(Entry<String,Object> e: _optargs.entrySet()) {
+                t.addOptargs(
+                        Term.AssocPair.newBuilder()
+                                .setKey(e.getKey())
+                                .setVal(eval(e.getValue()).build())
+                                .build()
+                );
+            }
+        }
 		return t.build();
 	}
 

@@ -7,7 +7,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDayDV;
 public abstract class RqlMethodQuery extends RqlQuery {
 	public static class Insert extends RqlMethodQuery {
 		public Insert(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {			
