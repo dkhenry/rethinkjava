@@ -16,7 +16,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 	}
 	public static class TableCreate extends RqlMethodQuery {
 		public TableCreate(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {			
@@ -201,7 +201,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class Between extends RqlMethodQuery {
 		public  Between(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,2);
 		}
 		@Override
 		protected TermType tt() {
@@ -221,7 +221,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class GetAll extends RqlMethodQuery {
 		public  GetAll(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -251,7 +251,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class Filter extends RqlMethodQuery {
 		public  Filter(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -271,7 +271,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class OrderBy extends RqlMethodQuery {
 		public  OrderBy(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -341,7 +341,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class GroupBy extends RqlMethodQuery {
 		public  GroupBy(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -371,7 +371,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class EqJoin extends RqlMethodQuery {
 		public  EqJoin(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,2);
 		}
 		@Override
 		protected TermType tt() {
@@ -411,7 +411,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class Update extends RqlMethodQuery {
 		public  Update(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -421,7 +421,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class Delete extends RqlMethodQuery {
 		public  Delete(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,0);
 		}
 		@Override
 		protected TermType tt() {
@@ -431,7 +431,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class Replace extends RqlMethodQuery {
 		public  Replace(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -441,7 +441,7 @@ public abstract class RqlMethodQuery extends RqlQuery {
 
 	public static class IndexCreate extends RqlMethodQuery {
 		public  IndexCreate(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {

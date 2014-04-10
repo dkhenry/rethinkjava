@@ -26,7 +26,12 @@ abstract public class RqlQuery {
 
     protected void construct_with_optargs(Object[] args, int args_required) {
         HashMap<String,Object> opt = null;
-        if( args.length > args_required && args[args.length-1] instanceof HashMap) {
+        for(int i =0; i < args.length; i++) {
+            if(args[i] instanceof RqlQuery ) {
+                args_required++;
+            }
+        }
+        if( (args.length > args_required) && (args[args.length-1] instanceof HashMap)) {
             opt = (HashMap<String,Object>)args[args.length -1] ;
             args = Arrays.copyOfRange(args, 0, args.length - 1);
         }
@@ -54,11 +59,19 @@ abstract public class RqlQuery {
             optargs = (HashMap<String,Object>)args[args.length -1] ;
             args = Arrays.copyOfRange(args, 0, args.length - 1);
         }
-        T rvalue = prepend_construct(args,clazz);
-        if( null != optargs ) {
-            rvalue.optargs(optargs);
+        try {
+            Constructor<T> ctor = clazz.getDeclaredConstructor(Object[].class);
+            Object[] o = new Object[args.length+1];
+            o[0] = this;
+            System.arraycopy(args,0,o,1,args.length);
+            T rvalue =  (T)ctor.newInstance(new Object[] { o } );
+            if( null != optargs ) {
+                rvalue.optargs(optargs);
+            }
+            return rvalue;
+        } catch (Exception ex ) {
+            return null;
         }
-        return rvalue;
     }
 	
 	public RqlQuery optargs(HashMap<String,Object> args) { 
@@ -288,7 +301,7 @@ abstract public class RqlQuery {
 	}
 
 	public RqlMethodQuery.Filter filter(Object ...args) {
-		return prepend_construct(args,RqlMethodQuery.Filter.class);
+		return prepend_construct_with_optargs(args, RqlMethodQuery.Filter.class, 1);
 	}
 
 	public RqlMethodQuery.ConcatMap concat_map(Object ...args) {
@@ -475,7 +488,7 @@ abstract public class RqlQuery {
 
 	public static class Table extends RqlQuery {
 		public Table(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		@Override
 		protected TermType tt() {
@@ -483,7 +496,7 @@ abstract public class RqlQuery {
 		}
 
 		public RqlMethodQuery.Insert insert(Object... args) {
-			return prepend_construct(args,RqlMethodQuery.Insert.class);
+			return prepend_construct_with_optargs(args, RqlMethodQuery.Insert.class, 1);
 		}
 
 		public RqlMethodQuery.Get get(Object ...args) {
@@ -508,7 +521,7 @@ abstract public class RqlQuery {
 
 		@Override
 		public RqlMethodQuery.Filter filter(Object ...args) {
-			return prepend_construct(args,RqlMethodQuery.Filter.class);
+			return prepend_construct_with_optargs(args, RqlMethodQuery.Filter.class, 1);
 		}
 
 		public RqlMethodQuery.Count count(Object ...args) {

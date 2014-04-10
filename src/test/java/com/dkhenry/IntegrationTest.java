@@ -81,7 +81,7 @@ public class IntegrationTest {
 			    new HashMap() {{ put("name","William Adama");put("show","Battlestar Galactica"); }}, 
 			    new HashMap() {{ put("name","Homer Simpson");put("show","The Simpsons"); }}
 		)));
-		assert Double.valueOf(4.0).equals(cursor.next().getAs("inserted")) : "Error inserting Data into Database";	
+		assert Double.valueOf(4.0).equals(cursor.next().getAs("inserted")) : "Error inserting Data into Database";
 		cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("show","Star Trek TNG"); }}));
 		// We Expect Two results 
 		int count = 0; 		
@@ -89,16 +89,15 @@ public class IntegrationTest {
 			Map<String,Object> m = o.getMap(); 
 			assert m.containsKey("name") : "Data that came back was malformed (missing \"name\")";
 			assert m.containsKey("show") : "Data that came back was malformed (missing \"show\")";
-			assert "Star Trek TNG".equals(m.get("show")): "Data that came back was just plain wrong (\"show\" was not \"Star Trek TNG\");";								
+			assert "Star Trek TNG".equals(m.get("show")): "Data that came back was just plain wrong (\"show\" was not \"Star Trek TNG\")";
 			count++; 		
 		}
-		
 		cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("name","donald duck");put("show","Disney show"); }}).is_empty());
 		Boolean isEmpty = null;
 		for(RqlObject o: cursor) {
 			isEmpty = o.getBoolean();
 		}		
-		assert isEmpty == true : "Failed at verifying query resultset is empty.";
+		assert isEmpty == true : "Failed at verifying query result set is empty.";
 		
 		cursor = r.run(r.db(database).table(table).count());
 		double rowCount = 0;
@@ -106,7 +105,17 @@ public class IntegrationTest {
 			rowCount = o.getNumber();
 		}		
 		assert rowCount == 4.0 : "Failed at getting the correct row count.";	
-		
+
+        cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("name", "Worf"); }}).update(new HashMap() {{ put("show", "Star Trek Deep Space Nine"); }}));
+        assert Double.valueOf(1.0).equals(cursor.next().getAs("updated")) : "Error updating Data into Database";
+        cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("name","Worf"); }}));
+        for(RqlObject o: cursor) {
+            Map<String,Object> m = o.getMap();
+            assert m.containsKey("name") : "Data that came back was malformed (missing \"name\")";
+            assert m.containsKey("Show") : "Data that came back was malformed (missing \"name\")";
+            assert "Star Trek Deep Space Nine".equals(m.get("show")) : "Data that came back was just plain wrong (\"show\" was not \"Star Trek Deep Space Nine\")";
+        }
+
         r.run(r.db(database).table_drop(table));
         r.run(r.db_drop(database));		
 		r.close();

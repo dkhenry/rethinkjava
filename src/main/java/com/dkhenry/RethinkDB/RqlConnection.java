@@ -5,9 +5,12 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SocketChannel;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
+import com.rethinkdb.Ql2;
 import com.rethinkdb.Ql2.Query;
 import com.rethinkdb.Ql2.Response;
 
@@ -79,12 +82,25 @@ public class RqlConnection {
 			_connected = false; 
 		}
 	}
-	
-	public RqlCursor run(RqlQuery query) throws RqlDriverException {
+    public RqlCursor run(RqlQuery query) throws RqlDriverException {
+        return run(query,null);
+    }
+
+    public RqlCursor run(RqlQuery query, HashMap<String,Object> optargs) throws RqlDriverException {
 		Query.Builder q =  com.rethinkdb.Ql2.Query.newBuilder();		
 		q.setType(Query.QueryType.START);
 		q.setToken(nextToken()); 
-		q.setQuery(query.build());	
+		q.setQuery(query.build());
+        if( null != optargs ) {
+            for(Map.Entry<String,Object> e: optargs.entrySet()) {
+                q.addGlobalOptargs(
+                    Query.AssocPair.newBuilder()
+                            .setKey(e.getKey())
+                            .setVal(RqlQuery.eval(e.getValue()).build())
+                            .build()
+                );
+            }
+        }
 		try {
 			send_raw(q.build().toByteArray());
 		} catch (IOException ex) { 
@@ -129,38 +145,32 @@ public class RqlConnection {
 	
 	/* Utility functions to make a pretty API */
 	public RqlQuery.Table table(Object... args) { 
-		RqlQuery.Table rvalue =  new RqlQuery.Table();
-		rvalue.construct(args);
+		RqlQuery.Table rvalue =  new RqlQuery.Table(args);
 		return rvalue; 
 	}
 	
 	public RqlTopLevelQuery.DB db(Object... args) {
-		RqlTopLevelQuery.DB rvalue = new RqlTopLevelQuery.DB();
-		rvalue.construct(args);
+		RqlTopLevelQuery.DB rvalue = new RqlTopLevelQuery.DB(args);
 		return rvalue;
 	}
 	
 	public RqlTopLevelQuery.DbCreate db_create(Object... args) { 
-		RqlTopLevelQuery.DbCreate rvalue = new RqlTopLevelQuery.DbCreate();
-		rvalue.construct(args);
+		RqlTopLevelQuery.DbCreate rvalue = new RqlTopLevelQuery.DbCreate(args);
 		return rvalue;
 	}
 	
 	public RqlTopLevelQuery.DbDrop db_drop(Object... args) { 
-		RqlTopLevelQuery.DbDrop rvalue = new RqlTopLevelQuery.DbDrop();
-		rvalue.construct(args);
+		RqlTopLevelQuery.DbDrop rvalue = new RqlTopLevelQuery.DbDrop(args);
 		return rvalue;
 	}
 	
 	public RqlTopLevelQuery.DbList db_list(Object... args) {
-		RqlTopLevelQuery.DbList rvalue = new RqlTopLevelQuery.DbList();
-		rvalue.construct(args);
+		RqlTopLevelQuery.DbList rvalue = new RqlTopLevelQuery.DbList(args);
 		return rvalue;
 	}
 
 	public RqlTopLevelQuery.Branch branch(Object... args) {
-		RqlTopLevelQuery.Branch rvalue = new RqlTopLevelQuery.Branch();
-		rvalue.construct(args);
+		RqlTopLevelQuery.Branch rvalue = new RqlTopLevelQuery.Branch(args);
 		return rvalue;
 	}
 		

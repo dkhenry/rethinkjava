@@ -98,7 +98,7 @@ public abstract class RqlTopLevelQuery extends RqlQuery {
 	
 	public static class TableCreateTL extends RqlTopLevelQuery {
 		public TableCreateTL(Object ...args) {
-			construct(args);
+			construct_with_optargs(args,1);
 		}
 		
 		@Override
