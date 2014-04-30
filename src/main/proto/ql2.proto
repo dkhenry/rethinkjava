@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Process: When you first open a connection, send the magic number
-// for the version of the protobuf you're targetting (in the [Version]
+// for the version of the protobuf you're targeting (in the [Version]
 // enum).  This should **NOT** be sent as a protobuf; just send the
 // little-endian 32-bit integer over the wire raw.  This number should
 // only be sent once per connection.
@@ -11,10 +11,16 @@
 // The magic number shall be followed by an authorization key.  The
 // first 4 bytes are the length of the key to be sent as a little-endian
 // 32-bit integer, followed by the key string.  Even if there is no key,
-// an empty string should be sent (length 0 and no data).  The server will
-// then respond with a NULL-terminated string response.  "SUCCESS" indicates
-// that the connection has been accepted. Any other response indicates an
-// error, and the response string should describe the error.
+// an empty string should be sent (length 0 and no data).
+
+// Following the authorization key, the client shall send a magic number
+// for the communication protocol they want to use (in the [Protocol]
+// enum).  This shall be a little-endian 32-bit integer.
+
+// The server will then respond with a NULL-terminated string response.
+// "SUCCESS" indicates that the connection has been accepted. Any other
+// response indicates an error, and the response string should describe
+// the error.
 
 // Next, for each query you want to send, construct a [Query] protobuf
 // and serialize it to a binary blob.  Send the blob's size to the
@@ -33,15 +39,20 @@
 //   token to get more results from the original query.
 ////////////////////////////////////////////////////////////////////////////////
 
-package com.rethinkdb;
-
-// This enum contains the magic numbers for your version.  See **THE HIGH-LEVEL
-// VIEW** for what to do with it.
 message VersionDummy { // We need to wrap it like this for some
                        // non-conforming protobuf libraries
+    // This enum contains the magic numbers for your version.  See **THE HIGH-LEVEL
+    // VIEW** for what to do with it.
     enum Version {
-        V0_1 = 0x3f61ba36;
-        V0_2 = 0x723081e1;
+        V0_1      = 0x3f61ba36;
+        V0_2      = 0x723081e1; // Authorization key during handshake
+        V0_3      = 0x5f75e83e; // Authorization key and protocol during handshake
+    }
+
+    // The protocol to use after the handshake, specified in V0_3
+    enum Protocol {
+        PROTOBUF  = 0x271ffc41;
+        JSON      = 0x7e6970c7;
     }
 }
 
@@ -255,6 +266,9 @@ message Term {
         // Takes nothing and returns a reference to the implicit variable.
         IMPLICIT_VAR = 13; // -> DATUM
 
+        // Takes a range of numbers and returns a random number within the range
+        RANDOM = 151; // NUMBER, NUMBER {float:BOOL} -> DATUM
+
         // * Data Operators
         // Returns a reference to a database.
         DB    = 14; // STRING -> Database
@@ -311,6 +325,8 @@ message Term {
                          // | Sequence, STRING -> Sequence
         // Return an array containing the keys of the object.
         KEYS = 94; // OBJECT -> ARRAY
+        // Creates an object
+        OBJECT = 143; // STRING, DATUM, ... -> OBJECT
         // Check whether an object contains all the specified fields,
         // or filters a sequence so that all objects inside of it
         // contain all the specified fields.
@@ -332,7 +348,7 @@ message Term {
         // changed by passing 'closed' or 'open for `right_bound` or
         // `left_bound`.
         BETWEEN   = 36; // StreamSelection, DATUM, DATUM, {index:!STRING, right_bound:STRING, left_bound:STRING} -> StreamSelection
-        REDUCE    = 37; // Sequence, Function(2), {base:DATUM} -> DATUM
+        REDUCE    = 37; // Sequence, Function(2) -> DATUM
         MAP       = 38; // Sequence, Function(1) -> Sequence
 
         // Filter a sequence with either a function or a shortcut
@@ -358,19 +374,7 @@ message Term {
         UNION     = 44; // Sequence... -> Sequence
         // Get the Nth element of a sequence.
         NTH       = 45; // Sequence, NUMBER -> DATUM
-        // Takes a sequence, and three functions:
-        // - A function to group the sequence by.
-        // - A function to map over the groups.
-        // - A reduction to apply to each of the groups.
-        GROUPED_MAP_REDUCE = 46; // Sequence, Function(1), Function(1), Function(2), {base:DATUM} -> ARRAY
-        // Groups a sequence by one or more attributes, and then applies a reduction.
-        // The third argument is a special object literal giving the kind of operation to be
-        // performed and any necessary arguments.
-        // At present, GROUPBY suports the following operations
-        // * {'COUNT': <ignored>} - count the size of the group
-        // * {'SUM': attr} - sum the values of the given attribute across the group
-        // * {'AVG': attr} - average the values of the given attribute across the group
-        GROUPBY            = 47; // Sequence, ARRAY, !GROUP_BY_OBJECT -> Sequence
+
         INNER_JOIN         = 48; // Sequence, Sequence, Function(2) -> Sequence
         OUTER_JOIN         = 49; // Sequence, Sequence, Function(2) -> Sequence
         // An inner-join that does an equality comparison on two attributes.
@@ -423,8 +427,8 @@ message Term {
         // Creates a table with a particular name in a particular
         // database.  (You may omit the first argument to use the
         // default database.)
-        TABLE_CREATE = 60; // Database, STRING, {datacenter:STRING, primary_key:STRING, cache_size:NUMBER, durability:STRING} -> OBJECT
-                           // STRING, {datacenter:STRING, primary_key:STRING, cache_size:NUMBER, durability:STRING} -> OBJECT
+        TABLE_CREATE = 60; // Database, STRING, {datacenter:STRING, primary_key:STRING, durability:STRING} -> OBJECT
+                           // STRING, {datacenter:STRING, primary_key:STRING, durability:STRING} -> OBJECT
         // Drops a table with a particular name from a particular
         // database.  (You may omit the first argument to use the
         // default database.)
@@ -611,6 +615,21 @@ message Term {
 
         // Indicates to MERGE to replace the other object rather than merge it.
         LITERAL = 137; // JSON -> Merging
+
+        // SEQUENCE, STRING -> GROUPED_SEQUENCE | SEQUENCE, FUNCTION -> GROUPED_SEQUENCE
+        GROUP = 144;
+        SUM = 145;
+        AVG = 146;
+        MIN = 147;
+        MAX = 148;
+
+        // `str.split()` splits on whitespace
+        // `str.split(" ")` splits on spaces only
+        // `str.split(" ", 5)` splits on spaces with at most 5 results
+        // `str.split(nil, 5)` splits on whitespace with at most 5 results
+        SPLIT = 149; // STRING -> ARRAY | STRING, STRING -> ARRAY | STRING, STRING, NUMBER -> ARRAY | STRING, NULL, NUMBER -> ARRAY
+
+        UNGROUP = 150; // GROUPED_DATA -> ARRAY
     }
     optional TermType type = 1;
 
