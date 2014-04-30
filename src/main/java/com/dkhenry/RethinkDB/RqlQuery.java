@@ -316,14 +316,6 @@ abstract public class RqlQuery {
 		return prepend_construct(args,RqlMethodQuery.EqJoin.class);
 	}
 
-	public RqlMethodQuery.GroupedMapReduce grouped_map_reduce(Object ...args) {
-		return prepend_construct(args,RqlMethodQuery.GroupedMapReduce.class);
-	}
-
-	public RqlMethodQuery.GroupBy group_by(Object ...args) {
-		return prepend_construct(args,RqlMethodQuery.GroupBy.class);
-	}
-
 	public RqlMethodQuery.ForEach for_each(Object ...args) {
 		return prepend_construct(args,RqlMethodQuery.ForEach.class);
 	}

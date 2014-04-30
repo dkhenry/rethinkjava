@@ -329,26 +329,6 @@ public abstract class RqlMethodQuery extends RqlQuery {
 		}
 	}
 
-	public static class GroupedMapReduce extends RqlMethodQuery {
-		public  GroupedMapReduce(Object ...args) {
-			construct(args);
-		}
-		@Override
-		protected TermType tt() {
-			return Term.TermType.GROUPED_MAP_REDUCE;
-		}
-	}
-
-	public static class GroupBy extends RqlMethodQuery {
-		public  GroupBy(Object ...args) {
-			construct_with_optargs(args,1);
-		}
-		@Override
-		protected TermType tt() {
-			return Term.TermType.GROUPBY;
-		}
-	}
-
 	public static class InnerJoin extends RqlMethodQuery {
 		public  InnerJoin(Object ...args) {
 			construct(args);
