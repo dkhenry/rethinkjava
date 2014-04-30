@@ -4,8 +4,7 @@ rethinkjava
 Java/JVM Drivers for RethinkDB ( rethinkdb.com )
 
 
-# Status 
-This drivers are being worked on now and is currently in progress. I make no claims about the usability, stability, or safety of this code. 
+# Status
 
 This driver is working with API version 1.0 and 2.0 ( RethinkDB 1.5, 1.6, 1.7 .. 1.11) 
 
@@ -20,6 +19,7 @@ This driver is working with API version 1.0 and 2.0 ( RethinkDB 1.5, 1.6, 1.7 ..
 deployment
 * 0.7 (December 2013) Fixed error encoding NULL. Updated protobuf to most recent version ( 1.11.2 )
 * 0.8 (Februrary 2014) Full support for v2 of the connection protocol including authentication
+* 0.9 (April 2014) Added support for optional arguments. Additional testing
 
 ## Using rethinkjava 
 Add the following to your pom.xml
@@ -45,13 +45,9 @@ Then in your dependencies section add the following
 ```
 
 ## Whats Working 
-Connecting, Reading, and Writing work as expected ( mostly ) 
+Almost Everything
 
-Also The Database administration querys should be working ( db_create, db_drop, db_list, table_create, table_drop, table_list )
-
-##Whats not working 
-
-Using functions as arguments in any part of the API
+##Whats not working
 
 Formal Examples. 
 
