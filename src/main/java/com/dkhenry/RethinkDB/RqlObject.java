@@ -3,6 +3,7 @@ package com.dkhenry.RethinkDB;
 import java.util.List;
 import java.util.Map;
 import com.dkhenry.RethinkDB.errors.RqlDriverException;
+import com.rethinkdb.Ql2;
 
 public class RqlObject {
 
@@ -22,22 +23,46 @@ public class RqlObject {
 	public Boolean getBoolean() throws RqlDriverException {
 		return as();		
 	}
+
+    public Boolean isBoolean() {
+        return _underlying.getType() == Ql2.Datum.DatumType.R_BOOL;
+    }
 	
 	public Double getNumber() throws RqlDriverException {
 		return as();
 	}
+
+    public Boolean isNumber() {
+        return _underlying.getType() == Ql2.Datum.DatumType.R_NUM;
+    }
 	
 	public String getString() throws RqlDriverException { 
 		return as();
 	}
+
+    public Boolean isString() {
+        return _underlying.getType() == Ql2.Datum.DatumType.R_STR;
+    }
 	
 	public List<Object> getList() throws RqlDriverException {
 		return as();
 	}
+
+    public Boolean isList() {
+        return _underlying.getType() == Ql2.Datum.DatumType.R_ARRAY;
+    }
 	
 	public Map<String,Object> getMap() throws RqlDriverException {
 		return as();
 	}
+
+    public Boolean isMap() {
+        return _underlying.getType() == Ql2.Datum.DatumType.R_OBJECT;
+    }
+
+    public Object get() throws RqlDriverException {
+        return as();
+    }
 	
 	@SuppressWarnings("unchecked")
 	public <T> T as() throws RqlDriverException {

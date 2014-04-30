@@ -107,12 +107,12 @@ public class IntegrationTest {
 		assert rowCount == 4.0 : "Failed at getting the correct row count.";	
 
         cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("name", "Worf"); }}).update(new HashMap() {{ put("show", "Star Trek Deep Space Nine"); }}));
-        assert Double.valueOf(1.0).equals(cursor.next().getAs("updated")) : "Error updating Data into Database";
+        assert Double.valueOf(1.0).equals(cursor.next().getAs("replaced")) : "Error updating Data in Database";
         cursor = r.run(r.db(database).table(table).filter(new HashMap() {{ put("name","Worf"); }}));
         for(RqlObject o: cursor) {
             Map<String,Object> m = o.getMap();
             assert m.containsKey("name") : "Data that came back was malformed (missing \"name\")";
-            assert m.containsKey("Show") : "Data that came back was malformed (missing \"name\")";
+            assert m.containsKey("show") : "Data that came back was malformed (missing \"show\")";
             assert "Star Trek Deep Space Nine".equals(m.get("show")) : "Data that came back was just plain wrong (\"show\" was not \"Star Trek Deep Space Nine\")";
         }
 

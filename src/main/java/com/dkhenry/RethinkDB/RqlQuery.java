@@ -301,7 +301,7 @@ abstract public class RqlQuery {
 	}
 
 	public RqlMethodQuery.Filter filter(Object ...args) {
-		return prepend_construct_with_optargs(args, RqlMethodQuery.Filter.class, 1);
+		return prepend_construct(args, RqlMethodQuery.Filter.class);
 	}
 
 	public RqlMethodQuery.ConcatMap concat_map(Object ...args) {
@@ -496,7 +496,7 @@ abstract public class RqlQuery {
 		}
 
 		public RqlMethodQuery.Insert insert(Object... args) {
-			return prepend_construct_with_optargs(args, RqlMethodQuery.Insert.class, 1);
+			return prepend_construct(args, RqlMethodQuery.Insert.class);
 		}
 
 		public RqlMethodQuery.Get get(Object ...args) {
@@ -521,7 +521,7 @@ abstract public class RqlQuery {
 
 		@Override
 		public RqlMethodQuery.Filter filter(Object ...args) {
-			return prepend_construct_with_optargs(args, RqlMethodQuery.Filter.class, 1);
+			return prepend_construct(args, RqlMethodQuery.Filter.class);
 		}
 
 		public RqlMethodQuery.Count count(Object ...args) {
